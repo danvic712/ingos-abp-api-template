@@ -1,0 +1,14 @@
+{
+  "$schema": "http://json.schemastore.org/template",
+  "author": "Danvic Wang",
+  "classifications": [ "Web/WebAPI" ],
+  "name": "Ingos Web API based on Abp framework With DDD thought",
+  "identity": "IngosAbpAPI",
+  "shortName": "ingos-abp-api",
+  "tags": {
+    "language": "C#",
+    "type": "project"
+  },
+  "sourceName": "IngosAbpTemplate",
+  "preferNameDirectory": true
+}

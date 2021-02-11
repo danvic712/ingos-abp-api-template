@@ -4,4 +4,13 @@
     <TargetFramework>netcoreapp3.1</TargetFramework>
   </PropertyGroup>
 
+  <ItemGroup>
+    <PackageReference Include="Volo.Abp.AutoMapper" Version="4.2.1" />
+    <PackageReference Include="Volo.Abp.Core" Version="4.2.1" />
+  </ItemGroup>
+
+  <ItemGroup>
+    <ProjectReference Include="..\..\02_Domain\IngosAbpTemplate.Domain\IngosAbpTemplate.Domain.csproj" />
+  </ItemGroup>
+
 </Project>

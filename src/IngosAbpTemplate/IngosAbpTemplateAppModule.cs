@@ -8,15 +8,20 @@
 // Description: Application Module
 //-----------------------------------------------------------------------
 
+using IngosAbpTemplate.Application;
 using Microsoft.AspNetCore.Builder;
 using Microsoft.Extensions.Hosting;
 using Volo.Abp;
 using Volo.Abp.AspNetCore.Mvc;
 using Volo.Abp.Modularity;
+using Volo.Abp.Swashbuckle;
 
 namespace IngosAbpTemplate.HttpApi
 {
-    [DependsOn(typeof(AbpAspNetCoreMvcModule))]
+    [DependsOn(typeof(IngosAbpTemplateApplicationModule),
+        typeof(AbpAspNetCoreMvcModule),
+        typeof(AbpSwashbuckleModule)
+    )]
     public class IngosAbpTemplateAppModule : AbpModule
     {
         public override void OnApplicationInitialization(ApplicationInitializationContext context)
@@ -28,7 +33,7 @@ namespace IngosAbpTemplate.HttpApi
 
             app.UseRouting();
 
-            app.UseEndpoints(endpoints => { endpoints.MapControllers(); });
+            app.UseConfiguredEndpoints();
         }
     }
 }
