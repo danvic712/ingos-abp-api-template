@@ -10,6 +10,7 @@
   </ItemGroup>
 
   <ItemGroup>
+    <ProjectReference Include="..\01_Infrastructure\IngosAbpTemplate.Infrastructure\IngosAbpTemplate.Infrastructure.csproj" />
     <ProjectReference Include="..\03_Application\IngosAbpTemplate.Application\IngosAbpTemplate.Application.csproj" />
   </ItemGroup>
 
