@@ -9,10 +9,13 @@
 //-----------------------------------------------------------------------
 
 using IngosAbpTemplate.Domain.AggregateModels.BookAggregate;
-using IngosAbpTemplate.Infrastructure.EntityConfigurations;
+using IngosAbpTemplate.Infrastructure.EntityFrameworkCore;
 using Microsoft.EntityFrameworkCore;
+using Volo.Abp.AuditLogging.EntityFrameworkCore;
+using Volo.Abp.BackgroundJobs.EntityFrameworkCore;
 using Volo.Abp.Data;
 using Volo.Abp.EntityFrameworkCore;
+using Volo.Abp.TenantManagement.EntityFrameworkCore;
 
 namespace IngosAbpTemplate.Infrastructure
 {
@@ -33,7 +36,25 @@ namespace IngosAbpTemplate.Infrastructure
         {
             base.OnModelCreating(modelBuilder);
 
+            //  Include Abp modules to your migration db context
+            //
+            modelBuilder.ConfigureAuditLogging();
+            modelBuilder.ConfigureBackgroundJobs();
+            modelBuilder.ConfigureTenantManagement();
+
+            modelBuilder.ConfigureAbpEntities();
             modelBuilder.ConfigureIngosAbpTemplate();
         }
+
+        //protected override void OnConfiguring(DbContextOptionsBuilder optionsBuilder)
+        //{
+        //    var configuration = DbContextMigrationsFactory.BuildConfiguration();
+
+        //    var connectionString = configuration.GetConnectionString("Default");
+
+        //    optionsBuilder
+        //        .UseMySql(connectionString, ServerVersion.AutoDetect(connectionString))
+        //        .UseSnakeCaseNamingConvention();
+        //}
     }
 }

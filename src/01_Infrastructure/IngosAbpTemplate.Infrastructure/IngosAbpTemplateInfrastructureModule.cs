@@ -10,14 +10,18 @@
 
 using IngosAbpTemplate.Domain;
 using Microsoft.Extensions.DependencyInjection;
+using Volo.Abp.AuditLogging.EntityFrameworkCore;
 using Volo.Abp.EntityFrameworkCore;
 using Volo.Abp.EntityFrameworkCore.MySQL;
 using Volo.Abp.Modularity;
+using Volo.Abp.TenantManagement.EntityFrameworkCore;
 
 namespace IngosAbpTemplate.Infrastructure
 {
     [DependsOn(typeof(IngosAbpTemplateDomainModule),
-        typeof(AbpEntityFrameworkCoreMySQLModule)
+        typeof(AbpEntityFrameworkCoreMySQLModule),
+        typeof(AbpAuditLoggingEntityFrameworkCoreModule),
+        typeof(AbpTenantManagementEntityFrameworkCoreModule)
     )]
     public class IngosAbpTemplateInfrastructureModule : AbpModule
     {
@@ -25,9 +29,8 @@ namespace IngosAbpTemplate.Infrastructure
         {
             context.Services.AddAbpDbContext<IngosAbpTemplateDbContext>(options =>
             {
-                /* Remove "includeAllEntities: true" to create
-                 * default repositories only for aggregate roots */
-                options.AddDefaultRepositories(true);
+                // includeAllEntities: false, just generate default repositories only for aggregate roots
+                options.AddDefaultRepositories();
             });
 
             Configure<AbpDbContextOptions>(options =>

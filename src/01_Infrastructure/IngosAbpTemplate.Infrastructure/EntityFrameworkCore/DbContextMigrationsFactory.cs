@@ -13,7 +13,7 @@ using Microsoft.EntityFrameworkCore;
 using Microsoft.EntityFrameworkCore.Design;
 using Microsoft.Extensions.Configuration;
 
-namespace IngosAbpTemplate.Infrastructure.DbMigrations
+namespace IngosAbpTemplate.Infrastructure.EntityFrameworkCore
 {
     public class DbContextMigrationsFactory : IDesignTimeDbContextFactory<IngosAbpTemplateDbContext>
     {
@@ -29,7 +29,7 @@ namespace IngosAbpTemplate.Infrastructure.DbMigrations
             return new IngosAbpTemplateDbContext(builder.Options);
         }
 
-        private static IConfigurationRoot BuildConfiguration()
+        public static IConfigurationRoot BuildConfiguration()
         {
             var builder = new ConfigurationBuilder()
                 .SetBasePath(Path.Combine(Directory.GetCurrentDirectory(), "../../IngosAbpTemplate.HttpApi/"))

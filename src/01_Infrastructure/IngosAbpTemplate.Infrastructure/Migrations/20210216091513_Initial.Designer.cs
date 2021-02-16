@@ -3,15 +3,17 @@ using System;
 using IngosAbpTemplate.Infrastructure;
 using Microsoft.EntityFrameworkCore;
 using Microsoft.EntityFrameworkCore.Infrastructure;
+using Microsoft.EntityFrameworkCore.Migrations;
 using Microsoft.EntityFrameworkCore.Storage.ValueConversion;
 using Volo.Abp.EntityFrameworkCore;
 
 namespace IngosAbpTemplate.Infrastructure.Migrations
 {
     [DbContext(typeof(IngosAbpTemplateDbContext))]
-    partial class IngosAbpTemplateDbContextModelSnapshot : ModelSnapshot
+    [Migration("20210216091513_Initial")]
+    partial class Initial
     {
-        protected override void BuildModel(ModelBuilder modelBuilder)
+        protected override void BuildTargetModel(ModelBuilder modelBuilder)
         {
 #pragma warning disable 612, 618
             modelBuilder

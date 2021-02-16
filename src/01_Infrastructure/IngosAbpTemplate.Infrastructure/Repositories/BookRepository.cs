@@ -8,9 +8,17 @@
 // Description:
 //-----------------------------------------------------------------------
 
+using IngosAbpTemplate.Domain.AggregateModels.BookAggregate;
+using Volo.Abp.Domain.Repositories.EntityFrameworkCore;
+using Volo.Abp.EntityFrameworkCore;
+
 namespace IngosAbpTemplate.Infrastructure.Repositories
 {
-    public class BookRepository
+    public class BookRepository : EfCoreRepository<IngosAbpTemplateDbContext, Book>
     {
+        public BookRepository(IDbContextProvider<IngosAbpTemplateDbContext> dbContextProvider)
+            : base(dbContextProvider)
+        {
+        }
     }
 }
