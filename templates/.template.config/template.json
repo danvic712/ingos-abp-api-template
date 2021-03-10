@@ -3,8 +3,8 @@
   "author": "Danvic Wang",
   "classifications": [ "Web/WebAPI" ],
   "name": "Ingos web api template based on abp framework.",
-  "identity": "IngosAbpAPI.Templates",
-  "shortName": "ingos-abp-api",
+  "identity": "Ingos.Abp.Templates",
+  "shortName": "ingos-abp",
   "tags": {
     "language": "C#",
     "type": "project"

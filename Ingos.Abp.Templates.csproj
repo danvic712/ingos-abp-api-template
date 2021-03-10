@@ -1,0 +1,39 @@
+<Project Sdk="Microsoft.NET.Sdk">
+
+  <PropertyGroup>
+    <PackageType>Template</PackageType>
+    <PackageVersion>1.0.0</PackageVersion>
+    <PackageId>Ingos.Abp.Templates</PackageId>
+    <Title>Ingos.Abp.Templates</Title>
+    <Authors>Danvic Wang</Authors>
+    <Description>Ingos web api template based on abp framework.</Description>
+    <PackageTags>dotnet-new;templates;abp</PackageTags>
+
+    <TargetFramework>net5.0</TargetFramework>
+
+    <IncludeContentInPack>true</IncludeContentInPack>
+    <IncludeBuildOutput>false</IncludeBuildOutput>
+    <ContentTargetFolders>content</ContentTargetFolders>
+    <NoWarn>$(NoWarn);NU5128</NoWarn>
+    <PackageLicenseExpression>MIT</PackageLicenseExpression>
+    <Copyright>Copyright (c) 2021 Danvic Wang</Copyright>
+    <PackageIcon>logo.png</PackageIcon>
+    <Product>Ingos.Abp.Templates</Product>
+    <Company>Danvic Wang</Company>
+    <RepositoryUrl>https://github.com/danvic712/ingos-abp-api-template</RepositoryUrl>
+    <PackageProjectUrl>https://github.com/danvic712/ingos-abp-api-template</PackageProjectUrl>
+    <RepositoryType>git</RepositoryType>
+  </PropertyGroup>
+
+  <ItemGroup>
+    <Content Include="templates\**\*" Exclude="templates\**\bin\**;templates\**\obj\**;templates\.vs\**" />
+    <Compile Remove="**\*" />
+  </ItemGroup>
+
+  <ItemGroup>
+    <None Include="resource\images\logo.png">
+      <Pack>True</Pack>
+      <PackagePath></PackagePath>
+    </None>
+  </ItemGroup>
+</Project>
