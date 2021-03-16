@@ -4,6 +4,7 @@ using Volo.Abp.BackgroundJobs;
 using Volo.Abp.Localization;
 using Volo.Abp.Localization.ExceptionHandling;
 using Volo.Abp.Modularity;
+using Volo.Abp.PermissionManagement;
 using Volo.Abp.Validation.Localization;
 using Volo.Abp.VirtualFileSystem;
 
@@ -11,7 +12,8 @@ namespace IngosAbpTemplate.Domain.Shared
 {
     [DependsOn(
         typeof(AbpAuditLoggingDomainSharedModule),
-        typeof(AbpBackgroundJobsDomainSharedModule)
+        typeof(AbpBackgroundJobsDomainSharedModule),
+        typeof(AbpPermissionManagementDomainSharedModule)
     )]
     public class IngosAbpTemplateDomainSharedModule : AbpModule
     {

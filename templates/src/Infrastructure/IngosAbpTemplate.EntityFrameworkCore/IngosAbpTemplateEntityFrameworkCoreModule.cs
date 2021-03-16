@@ -6,6 +6,7 @@ using Volo.Abp.BackgroundJobs.EntityFrameworkCore;
 using Volo.Abp.EntityFrameworkCore;
 using Volo.Abp.EntityFrameworkCore.MySQL;
 using Volo.Abp.Modularity;
+using Volo.Abp.PermissionManagement.EntityFrameworkCore;
 
 namespace IngosAbpTemplate.EntityFrameworkCore
 {
@@ -13,7 +14,8 @@ namespace IngosAbpTemplate.EntityFrameworkCore
         typeof(IngosAbpTemplateDomainModule),
         typeof(AbpEntityFrameworkCoreMySQLModule),
         typeof(AbpBackgroundJobsEntityFrameworkCoreModule),
-        typeof(AbpAuditLoggingEntityFrameworkCoreModule)
+        typeof(AbpAuditLoggingEntityFrameworkCoreModule),
+        typeof(AbpPermissionManagementEntityFrameworkCoreModule)
     )]
     public class IngosAbpTemplateEntityFrameworkCoreModule : AbpModule
     {

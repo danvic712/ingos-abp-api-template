@@ -5,6 +5,7 @@ using Volo.Abp.AuditLogging;
 using Volo.Abp.BackgroundJobs;
 using Volo.Abp.Emailing;
 using Volo.Abp.Modularity;
+using Volo.Abp.PermissionManagement;
 
 namespace IngosAbpTemplate.Domain
 {
@@ -12,7 +13,8 @@ namespace IngosAbpTemplate.Domain
         typeof(IngosAbpTemplateDomainSharedModule),
         typeof(AbpAuditLoggingDomainModule),
         typeof(AbpBackgroundJobsDomainModule),
-        typeof(AbpEmailingModule)
+        typeof(AbpEmailingModule),
+        typeof(AbpPermissionManagementDomainModule)
     )]
     public class IngosAbpTemplateDomainModule : AbpModule
     {

@@ -2,12 +2,14 @@
 using IngosAbpTemplate.Domain;
 using Volo.Abp.AutoMapper;
 using Volo.Abp.Modularity;
+using Volo.Abp.PermissionManagement;
 
 namespace IngosAbpTemplate.Application
 {
     [DependsOn(
         typeof(IngosAbpTemplateDomainModule),
-        typeof(IngosAbpTemplateApplicationContractsModule)
+        typeof(IngosAbpTemplateApplicationContractsModule),
+        typeof(AbpPermissionManagementApplicationModule)
     )]
     public class IngosAbpTemplateApplicationModule : AbpModule
     {

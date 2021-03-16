@@ -12,6 +12,7 @@ using Microsoft.EntityFrameworkCore;
 using Volo.Abp;
 using Volo.Abp.AuditLogging.EntityFrameworkCore;
 using Volo.Abp.BackgroundJobs.EntityFrameworkCore;
+using Volo.Abp.PermissionManagement.EntityFrameworkCore;
 
 namespace IngosAbpTemplate.EntityFrameworkCore.EntityConfigurations
 {
@@ -42,6 +43,9 @@ namespace IngosAbpTemplate.EntityFrameworkCore.EntityConfigurations
 
             //builder.Entity<BackgroundJobRecord>()
             //    .ToTable($"{Consts.AbpDbTablePrefix}_Background_Jobs".ToLower());
+
+            // Permission module
+            builder.ConfigurePermissionManagement();
         }
 
         /// <summary>

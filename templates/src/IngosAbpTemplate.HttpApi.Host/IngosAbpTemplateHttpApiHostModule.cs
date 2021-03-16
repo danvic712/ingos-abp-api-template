@@ -27,6 +27,7 @@ using Volo.Abp.Caching;
 using Volo.Abp.Caching.StackExchangeRedis;
 using Volo.Abp.Localization;
 using Volo.Abp.Modularity;
+using Volo.Abp.PermissionManagement.HttpApi;
 using Volo.Abp.Swashbuckle;
 using Volo.Abp.VirtualFileSystem;
 
@@ -36,6 +37,7 @@ namespace IngosAbpTemplate.HttpApi.Host
         typeof(AbpCachingStackExchangeRedisModule),
         typeof(IngosAbpTemplateApplicationModule),
         typeof(IngosAbpTemplateEntityFrameworkCoreModule),
+        typeof(AbpPermissionManagementHttpApiModule),
         typeof(AbpAspNetCoreSerilogModule),
         typeof(AbpSwashbuckleModule)
     )]
