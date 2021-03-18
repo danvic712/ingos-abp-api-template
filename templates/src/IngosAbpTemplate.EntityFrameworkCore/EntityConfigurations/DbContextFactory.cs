@@ -34,7 +34,7 @@ namespace IngosAbpTemplate.EntityFrameworkCore.EntityConfigurations
         private static IConfigurationRoot BuildConfiguration()
         {
             var builder = new ConfigurationBuilder()
-                .SetBasePath(Path.Combine(Directory.GetCurrentDirectory(), "../../IngosAbpTemplate.HttpApi.Host/"))
+                .SetBasePath(Path.Combine(Directory.GetCurrentDirectory(), "../IngosAbpTemplate.HttpApi.Host/"))
                 .AddJsonFile("appsettings.json", false);
 
             return builder.Build();

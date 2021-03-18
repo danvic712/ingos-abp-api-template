@@ -12,7 +12,7 @@
   </ItemGroup>
 
   <ItemGroup>
-    <ProjectReference Include="..\..\Domain\IngosAbpTemplate.Domain\IngosAbpTemplate.Domain.csproj" />
     <ProjectReference Include="..\IngosAbpTemplate.Application.Contracts\IngosAbpTemplate.Application.Contracts.csproj" />
+    <ProjectReference Include="..\IngosAbpTemplate.Domain\IngosAbpTemplate.Domain.csproj" />
   </ItemGroup>
 </Project>

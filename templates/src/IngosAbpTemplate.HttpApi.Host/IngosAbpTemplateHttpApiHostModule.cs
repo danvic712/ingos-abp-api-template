@@ -74,16 +74,16 @@ namespace IngosAbpTemplate.HttpApi.Host
                 {
                     options.FileSets.ReplaceEmbeddedByPhysical<IngosAbpTemplateDomainSharedModule>(
                         Path.Combine(hostingEnvironment.ContentRootPath,
-                            $@"..{Path.DirectorySeparatorChar}\Domain\IngosAbpTemplate.Domain.Shared"));
+                            $@"..{Path.DirectorySeparatorChar}\IngosAbpTemplate.Domain.Shared"));
                     options.FileSets.ReplaceEmbeddedByPhysical<IngosAbpTemplateDomainModule>(
                         Path.Combine(hostingEnvironment.ContentRootPath,
-                            $@"..{Path.DirectorySeparatorChar}\Domain\IngosAbpTemplate.Domain"));
+                            $@"..{Path.DirectorySeparatorChar}\IngosAbpTemplate.Domain"));
                     options.FileSets.ReplaceEmbeddedByPhysical<IngosAbpTemplateApplicationContractsModule>(
                         Path.Combine(hostingEnvironment.ContentRootPath,
-                            $@"..{Path.DirectorySeparatorChar}\Application\IngosAbpTemplate.Application.Contracts"));
+                            $@"..{Path.DirectorySeparatorChar}\IngosAbpTemplate.Application.Contracts"));
                     options.FileSets.ReplaceEmbeddedByPhysical<IngosAbpTemplateApplicationModule>(
                         Path.Combine(hostingEnvironment.ContentRootPath,
-                            $@"..{Path.DirectorySeparatorChar}\Application\IngosAbpTemplate.Application"));
+                            $@"..{Path.DirectorySeparatorChar}\IngosAbpTemplate.Application"));
                 });
         }
 

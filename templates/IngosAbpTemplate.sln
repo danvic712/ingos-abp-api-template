@@ -5,23 +5,17 @@ VisualStudioVersion = 16.0.31025.194
 MinimumVisualStudioVersion = 10.0.40219.1
 Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "src", "src", "{D9A8DC95-89BA-4BA7-BA9A-DB1AE0A4263C}"
 EndProject
-Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "Infrastructure", "Infrastructure", "{D2DC8441-C8C7-4E16-A541-1A15F5B0122B}"
+Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "IngosAbpTemplate.EntityFrameworkCore", "src\IngosAbpTemplate.EntityFrameworkCore\IngosAbpTemplate.EntityFrameworkCore.csproj", "{8761DF91-83B3-4F44-836A-7BADCF4E5346}"
 EndProject
-Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "Domain", "Domain", "{621B8C20-C0A8-4B51-8700-97519363C6CB}"
+Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "IngosAbpTemplate.Domain", "src\IngosAbpTemplate.Domain\IngosAbpTemplate.Domain.csproj", "{4AB79EEB-5626-4363-BE04-6C9560E0996E}"
 EndProject
-Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "Application", "Application", "{F91976EA-A0F6-4672-BCB4-1D8F2CDD5725}"
+Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "IngosAbpTemplate.Application", "src\IngosAbpTemplate.Application\IngosAbpTemplate.Application.csproj", "{9EA811F1-3BE3-4D4C-A22F-B0C677A2F6C8}"
 EndProject
-Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "IngosAbpTemplate.EntityFrameworkCore", "src\Infrastructure\IngosAbpTemplate.EntityFrameworkCore\IngosAbpTemplate.EntityFrameworkCore.csproj", "{8761DF91-83B3-4F44-836A-7BADCF4E5346}"
-EndProject
-Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "IngosAbpTemplate.Domain", "src\Domain\IngosAbpTemplate.Domain\IngosAbpTemplate.Domain.csproj", "{4AB79EEB-5626-4363-BE04-6C9560E0996E}"
-EndProject
-Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "IngosAbpTemplate.Application", "src\Application\IngosAbpTemplate.Application\IngosAbpTemplate.Application.csproj", "{9EA811F1-3BE3-4D4C-A22F-B0C677A2F6C8}"
-EndProject
-Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "IngosAbpTemplate.Application.Contracts", "src\Application\IngosAbpTemplate.Application.Contracts\IngosAbpTemplate.Application.Contracts.csproj", "{067F31EC-3153-4DBC-A173-AC892939E885}"
+Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "IngosAbpTemplate.Application.Contracts", "src\IngosAbpTemplate.Application.Contracts\IngosAbpTemplate.Application.Contracts.csproj", "{067F31EC-3153-4DBC-A173-AC892939E885}"
 EndProject
 Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "IngosAbpTemplate.HttpApi.Host", "src\IngosAbpTemplate.HttpApi.Host\IngosAbpTemplate.HttpApi.Host.csproj", "{D2683C86-4165-4A9F-95E7-06149842CC1F}"
 EndProject
-Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "IngosAbpTemplate.Domain.Shared", "src\Domain\IngosAbpTemplate.Domain.Shared\IngosAbpTemplate.Domain.Shared.csproj", "{198458A9-EC6A-459D-9026-41478CC95F74}"
+Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "IngosAbpTemplate.Domain.Shared", "src\IngosAbpTemplate.Domain.Shared\IngosAbpTemplate.Domain.Shared.csproj", "{198458A9-EC6A-459D-9026-41478CC95F74}"
 EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution
@@ -58,15 +52,12 @@ Global
 		HideSolutionNode = FALSE
 	EndGlobalSection
 	GlobalSection(NestedProjects) = preSolution
-		{D2DC8441-C8C7-4E16-A541-1A15F5B0122B} = {D9A8DC95-89BA-4BA7-BA9A-DB1AE0A4263C}
-		{621B8C20-C0A8-4B51-8700-97519363C6CB} = {D9A8DC95-89BA-4BA7-BA9A-DB1AE0A4263C}
-		{F91976EA-A0F6-4672-BCB4-1D8F2CDD5725} = {D9A8DC95-89BA-4BA7-BA9A-DB1AE0A4263C}
-		{8761DF91-83B3-4F44-836A-7BADCF4E5346} = {D2DC8441-C8C7-4E16-A541-1A15F5B0122B}
-		{4AB79EEB-5626-4363-BE04-6C9560E0996E} = {621B8C20-C0A8-4B51-8700-97519363C6CB}
-		{9EA811F1-3BE3-4D4C-A22F-B0C677A2F6C8} = {F91976EA-A0F6-4672-BCB4-1D8F2CDD5725}
-		{067F31EC-3153-4DBC-A173-AC892939E885} = {F91976EA-A0F6-4672-BCB4-1D8F2CDD5725}
+		{8761DF91-83B3-4F44-836A-7BADCF4E5346} = {D9A8DC95-89BA-4BA7-BA9A-DB1AE0A4263C}
+		{4AB79EEB-5626-4363-BE04-6C9560E0996E} = {D9A8DC95-89BA-4BA7-BA9A-DB1AE0A4263C}
+		{9EA811F1-3BE3-4D4C-A22F-B0C677A2F6C8} = {D9A8DC95-89BA-4BA7-BA9A-DB1AE0A4263C}
+		{067F31EC-3153-4DBC-A173-AC892939E885} = {D9A8DC95-89BA-4BA7-BA9A-DB1AE0A4263C}
 		{D2683C86-4165-4A9F-95E7-06149842CC1F} = {D9A8DC95-89BA-4BA7-BA9A-DB1AE0A4263C}
-		{198458A9-EC6A-459D-9026-41478CC95F74} = {621B8C20-C0A8-4B51-8700-97519363C6CB}
+		{198458A9-EC6A-459D-9026-41478CC95F74} = {D9A8DC95-89BA-4BA7-BA9A-DB1AE0A4263C}
 	EndGlobalSection
 	GlobalSection(ExtensibilityGlobals) = postSolution
 		SolutionGuid = {A3646993-1282-4046-91E7-749E6E9DFC95}

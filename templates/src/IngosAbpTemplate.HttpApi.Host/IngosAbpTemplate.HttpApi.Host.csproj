@@ -21,9 +21,11 @@
   </ItemGroup>
 
   <ItemGroup>
-    <ProjectReference Include="..\Infrastructure\IngosAbpTemplate.EntityFrameworkCore\IngosAbpTemplate.EntityFrameworkCore.csproj" />
-    <ProjectReference Include="..\Domain\IngosAbpTemplate.Domain.Shared\IngosAbpTemplate.Domain.Shared.csproj" />
-    <ProjectReference Include="..\Application\IngosAbpTemplate.Application\IngosAbpTemplate.Application.csproj" />
+    <ProjectReference Include="..\IngosAbpTemplate.Application.Contracts\IngosAbpTemplate.Application.Contracts.csproj" />
+    <ProjectReference Include="..\IngosAbpTemplate.Domain\IngosAbpTemplate.Domain.csproj" />
+    <ProjectReference Include="..\IngosAbpTemplate.EntityFrameworkCore\IngosAbpTemplate.EntityFrameworkCore.csproj" />
+    <ProjectReference Include="..\IngosAbpTemplate.Domain.Shared\IngosAbpTemplate.Domain.Shared.csproj" />
+    <ProjectReference Include="..\IngosAbpTemplate.Application\IngosAbpTemplate.Application.csproj" />
   </ItemGroup>
 
   <ItemGroup>

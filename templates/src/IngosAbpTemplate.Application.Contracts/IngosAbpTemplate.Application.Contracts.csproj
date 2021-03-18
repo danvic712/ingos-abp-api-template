@@ -12,6 +12,6 @@
   </ItemGroup>
 
   <ItemGroup>
-    <ProjectReference Include="..\..\Domain\IngosAbpTemplate.Domain.Shared\IngosAbpTemplate.Domain.Shared.csproj" />
+    <ProjectReference Include="..\IngosAbpTemplate.Domain.Shared\IngosAbpTemplate.Domain.Shared.csproj" />
   </ItemGroup>
 </Project>
