@@ -86,6 +86,11 @@ namespace IngosAbpTemplate.HttpApi.Host
             {
                 options.SwaggerEndpoint("/swagger/v1/swagger.json", "IngosAbpTemplate API");
 
+                // Inject custom js to export api doc
+                //
+                options.InjectJavascript("/swagger-ui/export.js");
+                options.InjectJavascript("/swagger-ui/rapipdf-min.js");
+
                 var configuration = context.GetConfiguration();
                 options.OAuthClientId(configuration["AuthServer:SwaggerClientId"]);
                 options.OAuthClientSecret(configuration["AuthServer:SwaggerClientSecret"]);
@@ -183,9 +188,9 @@ namespace IngosAbpTemplate.HttpApi.Host
                     //
                     var paths = new List<string>
                     {
-                        @"Shared\Application.Contracts.xml",
-                        @"Shared\Application.xml",
-                        @"Shared\HttpApi.Host.xml"
+                        @"wwwroot\api-doc\Application.Contracts.xml",
+                        @"wwwroot\api-doc\Application.xml",
+                        @"wwwroot\api-doc\HttpApi.Host.xml"
                     };
                     GetApiDocPaths(paths, Path.GetDirectoryName(AppContext.BaseDirectory))
                         .ForEach(x => options.IncludeXmlComments(x, true));
