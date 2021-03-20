@@ -25,10 +25,19 @@ namespace IngosAbpTemplate.EntityFrameworkCore.EntityConfigurations
 
             var connectionString = configuration.GetConnectionString("Default");
 
+#if MsSQL
+            var builder = new DbContextOptionsBuilder<IngosAbpTemplateDbContext>()
+                .UseSqlServer(connectionString);
+            return new IngosAbpTemplateDbContext(builder.Options);
+#elif PgSQL
+            var builder = new DbContextOptionsBuilder<IngosAbpTemplateDbContext>()
+                .UseNpgsql(connectionString);
+            return new IngosAbpTemplateDbContext(builder.Options);
+#else
             var builder = new DbContextOptionsBuilder<IngosAbpTemplateDbContext>()
                 .UseMySql(connectionString, ServerVersion.AutoDetect(connectionString));
-
             return new IngosAbpTemplateDbContext(builder.Options);
+#endif
         }
 
         private static IConfigurationRoot BuildConfiguration()

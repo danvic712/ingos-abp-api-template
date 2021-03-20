@@ -4,7 +4,13 @@ using Microsoft.Extensions.DependencyInjection;
 using Volo.Abp.AuditLogging.EntityFrameworkCore;
 using Volo.Abp.BackgroundJobs.EntityFrameworkCore;
 using Volo.Abp.EntityFrameworkCore;
+#if MsSQL
+using Volo.Abp.EntityFrameworkCore.SqlServer;
+#elif PgSQL
+using Volo.Abp.EntityFrameworkCore.PostgreSql;
+#else
 using Volo.Abp.EntityFrameworkCore.MySQL;
+#endif
 using Volo.Abp.Modularity;
 using Volo.Abp.PermissionManagement.EntityFrameworkCore;
 
@@ -12,7 +18,13 @@ namespace IngosAbpTemplate.EntityFrameworkCore
 {
     [DependsOn(
         typeof(IngosAbpTemplateDomainModule),
+#if MsSQL
+        typeof(AbpEntityFrameworkCoreSqlServerModule),
+#elif PgSQL
+        typeof(AbpEntityFrameworkCorePostgreSqlModule),
+#else
         typeof(AbpEntityFrameworkCoreMySQLModule),
+#endif
         typeof(AbpBackgroundJobsEntityFrameworkCoreModule),
         typeof(AbpAuditLoggingEntityFrameworkCoreModule),
         typeof(AbpPermissionManagementEntityFrameworkCoreModule)
@@ -35,9 +47,13 @@ namespace IngosAbpTemplate.EntityFrameworkCore
 
             Configure<AbpDbContextOptions>(options =>
             {
-                /* The main point to change your DBMS.
-                 * See also IngosAbpTemplateMigrationsDbContextFactory for EF Core tooling. */
+#if MsSQL
+                options.UseSqlServer();
+#elif PgSQL
+                options.UseNpgsql();
+#else
                 options.UseMySQL();
+#endif
             });
         }
     }

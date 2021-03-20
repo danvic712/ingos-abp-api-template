@@ -43,8 +43,12 @@ dotnet new ingos-abp -n Sample
 If you want to learn more about this template, you can enter the following shell script to get help information.
 
 ```shell
-dotnet new ingos-abp --help
+dotnet new ingos-abp-api --help
 ```
+
+Or you can using the latest Visual Studio to create the project, but please note that this cannot modify the default database option. The default database is MySQL.
+
+![creation](resource/images/creation.png)
 
 ### 3、Uninstall
 

@@ -4,10 +4,44 @@
   "classifications": [ "Web/WebAPI" ],
   "name": "Ingos Web API with ABP Framework",
   "identity": "Ingos.Abp.Templates",
-  "shortName": "ingos-abp",
+  "shortName": "ingos-abp-api",
   "tags": {
     "language": "C#",
     "type": "project"
+  },
+  "symbols":{
+    "dbType": {
+      "type": "parameter",
+      "datatype": "choice",
+      "choices": [
+        {
+          "choice": "MySQL",
+          "description": "MySQL"
+        },
+        {
+          "choice": "MsSQL",
+          "description": "Microsoft SQL Server"
+        },
+        {
+          "choice": "PgSQL",
+          "description": "PostgreSQL"
+        }
+      ],
+      "defaultValue": "MySQL",
+      "description": "The type of database you want to use"
+    },  
+    "MySQL": {
+      "type": "computed",
+      "value": "(dbType == \"MySQL\")"
+    },
+    "MsSQL": {
+      "type": "computed",
+      "value": "(dbType == \"MsSQL\")"
+    },
+    "PgSQL": {
+      "type": "computed",
+      "value": "(dbType == \"PgSQL\")"
+    }
   },
   "sourceName": "IngosAbpTemplate",
   "preferNameDirectory": true
