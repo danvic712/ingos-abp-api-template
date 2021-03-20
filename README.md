@@ -37,7 +37,7 @@ After you have installed this template, you can use dotnet cli to create a new p
 
 ```sh
 -- it will create a project which named Sample 
-dotnet new ingos-abp -n Sample
+dotnet new ingos-abp-api -n Sample
 ```
 
 If you want to learn more about this template, you can enter the following shell script to get help information.
