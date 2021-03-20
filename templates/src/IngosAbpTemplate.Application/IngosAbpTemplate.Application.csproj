@@ -5,6 +5,10 @@
     <RootNamespace>IngosAbpTemplate.Application</RootNamespace>
   </PropertyGroup>
 
+  <PropertyGroup Condition="'$(Configuration)|$(Platform)'=='Debug|AnyCPU'">
+    <DocumentationFile>../IngosAbpTemplate.HttpApi.Host/Shared/Application.xml</DocumentationFile>
+  </PropertyGroup>
+
   <ItemGroup>
     <PackageReference Include="Volo.Abp.Ddd.Application" Version="4.2.2" />
     <PackageReference Include="Volo.Abp.PermissionManagement.Application" Version="4.2.2" />

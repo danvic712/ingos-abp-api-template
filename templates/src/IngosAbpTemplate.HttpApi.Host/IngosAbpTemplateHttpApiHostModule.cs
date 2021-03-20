@@ -22,6 +22,7 @@ using StackExchange.Redis;
 using Volo.Abp;
 using Volo.Abp.AspNetCore.Mvc;
 using Volo.Abp.AspNetCore.Serilog;
+using Volo.Abp.Auditing;
 using Volo.Abp.Autofac;
 using Volo.Abp.Caching;
 using Volo.Abp.Caching.StackExchangeRedis;
@@ -45,11 +46,14 @@ namespace IngosAbpTemplate.HttpApi.Host
     {
         private const string DefaultCorsPolicyName = "IngosAbpTemplate";
 
+        #region Services
+
         public override void ConfigureServices(ServiceConfigurationContext context)
         {
             var configuration = context.Services.GetConfiguration();
             var hostingEnvironment = context.Services.GetHostingEnvironment();
 
+            ConfigureAuditing(context.Services);
             ConfigureConventionalControllers(context.Services);
             ConfigureAuthentication(context, configuration);
             ConfigureLocalization();
@@ -58,6 +62,52 @@ namespace IngosAbpTemplate.HttpApi.Host
             ConfigureRedis(context, configuration, hostingEnvironment);
             ConfigureCors(context, configuration);
             ConfigureSwaggerServices(context, configuration);
+        }
+
+        public override void OnApplicationInitialization(ApplicationInitializationContext context)
+        {
+            var app = context.GetApplicationBuilder();
+            var env = context.GetEnvironment();
+
+            if (env.IsDevelopment()) app.UseDeveloperExceptionPage();
+
+            app.UseAbpRequestLocalization();
+
+            app.UseCorrelationId();
+            app.UseVirtualFiles();
+            app.UseRouting();
+            app.UseCors(DefaultCorsPolicyName);
+            app.UseAuthentication();
+
+            app.UseAuthorization();
+
+            app.UseSwagger();
+            app.UseAbpSwaggerUI(options =>
+            {
+                options.SwaggerEndpoint("/swagger/v1/swagger.json", "IngosAbpTemplate API");
+
+                var configuration = context.GetConfiguration();
+                options.OAuthClientId(configuration["AuthServer:SwaggerClientId"]);
+                options.OAuthClientSecret(configuration["AuthServer:SwaggerClientSecret"]);
+            });
+
+            app.UseAuditing();
+            app.UseAbpSerilogEnrichers();
+            app.UseUnitOfWork();
+            app.UseConfiguredEndpoints();
+        }
+
+        #endregion Services
+
+        #region Methods
+
+        private void ConfigureAuditing(IServiceCollection context)
+        {
+            Configure<AbpAuditingOptions>(options =>
+            {
+                options.ApplicationName = "IngosAbpTemplate"; // Set the application name
+                options.EntityHistorySelectors.AddAllEntities(); // Default saving all changes of entities
+            });
         }
 
         private void ConfigureCache(IConfiguration configuration)
@@ -128,6 +178,17 @@ namespace IngosAbpTemplate.HttpApi.Host
 
                     // Let params use the camel naming method
                     options.DescribeAllParametersInCamelCase();
+
+                    // Inject api and dto comments
+                    //
+                    var paths = new List<string>
+                    {
+                        @"Shared\Application.Contracts.xml",
+                        @"Shared\Application.xml",
+                        @"Shared\HttpApi.Host.xml"
+                    };
+                    GetApiDocPaths(paths, Path.GetDirectoryName(AppContext.BaseDirectory))
+                        .ForEach(x => options.IncludeXmlComments(x, true));
                 });
         }
 
@@ -147,9 +208,7 @@ namespace IngosAbpTemplate.HttpApi.Host
             });
         }
 
-        private void ConfigureRedis(
-            ServiceConfigurationContext context,
-            IConfiguration configuration,
+        private void ConfigureRedis(ServiceConfigurationContext context, IConfiguration configuration,
             IWebHostEnvironment hostingEnvironment)
         {
             if (!hostingEnvironment.IsDevelopment())
@@ -183,37 +242,21 @@ namespace IngosAbpTemplate.HttpApi.Host
             });
         }
 
-        public override void OnApplicationInitialization(ApplicationInitializationContext context)
+        /// <summary>
+        ///     Get the api description doc path
+        /// </summary>
+        /// <param name="paths">The xml file path</param>
+        /// <param name="basePath">The site's base running files path</param>
+        /// <returns></returns>
+        private static List<string> GetApiDocPaths(IEnumerable<string> paths, string basePath)
         {
-            var app = context.GetApplicationBuilder();
-            var env = context.GetEnvironment();
+            var files = from path in paths
+                        let xml = Path.Combine(basePath, path)
+                        select xml;
 
-            if (env.IsDevelopment()) app.UseDeveloperExceptionPage();
-
-            app.UseAbpRequestLocalization();
-
-            app.UseCorrelationId();
-            app.UseVirtualFiles();
-            app.UseRouting();
-            app.UseCors(DefaultCorsPolicyName);
-            app.UseAuthentication();
-
-            app.UseAuthorization();
-
-            app.UseSwagger();
-            app.UseAbpSwaggerUI(options =>
-            {
-                options.SwaggerEndpoint("/swagger/v1/swagger.json", "IngosAbpTemplate API");
-
-                var configuration = context.GetConfiguration();
-                options.OAuthClientId(configuration["AuthServer:SwaggerClientId"]);
-                options.OAuthClientSecret(configuration["AuthServer:SwaggerClientSecret"]);
-            });
-
-            app.UseAuditing();
-            app.UseAbpSerilogEnrichers();
-            app.UseUnitOfWork();
-            app.UseConfiguredEndpoints();
+            return files.ToList();
         }
+
+        #endregion Methods
     }
 }

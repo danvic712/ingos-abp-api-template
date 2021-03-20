@@ -13,8 +13,14 @@ using Volo.Abp.AspNetCore.Mvc;
 
 namespace IngosAbpTemplate.HttpApi.Host.Controllers
 {
+    /// <summary>
+    ///     Base controller
+    /// </summary>
     public abstract class BaseController : AbpController
     {
+        /// <summary>
+        ///     The base controller
+        /// </summary>
         protected BaseController()
         {
             LocalizationResource = typeof(IngosAbpTemplateResource);
