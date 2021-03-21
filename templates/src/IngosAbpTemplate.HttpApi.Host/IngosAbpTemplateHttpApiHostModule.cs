@@ -14,6 +14,8 @@ using Microsoft.AspNetCore.Builder;
 using Microsoft.AspNetCore.Cors;
 using Microsoft.AspNetCore.DataProtection;
 using Microsoft.AspNetCore.Hosting;
+using Microsoft.AspNetCore.Mvc;
+using Microsoft.AspNetCore.Mvc.Versioning;
 using Microsoft.Extensions.Configuration;
 using Microsoft.Extensions.DependencyInjection;
 using Microsoft.Extensions.Hosting;
@@ -48,13 +50,25 @@ namespace IngosAbpTemplate.HttpApi.Host
 
         #region Services
 
+        public override void PreConfigureServices(ServiceConfigurationContext context)
+        {
+            PreConfigure<AbpAspNetCoreMvcOptions>(options =>
+            {
+                options.ConventionalControllers.Create(typeof(IngosAbpTemplateApplicationModule).Assembly,
+                    opts => { opts.ApiVersions.Add(new ApiVersion(1, 0)); });
+            });
+        }
+
         public override void ConfigureServices(ServiceConfigurationContext context)
         {
             var configuration = context.Services.GetConfiguration();
             var hostingEnvironment = context.Services.GetHostingEnvironment();
 
-            ConfigureAuditing(context.Services);
-            ConfigureConventionalControllers(context.Services);
+            context.Services.AddHttpClient();
+            context.Services.AddHealthChecks();
+
+            ConfigureAuditing(context);
+            ConfigureConventionalControllers(context);
             ConfigureAuthentication(context, configuration);
             ConfigureLocalization();
             ConfigureCache(configuration);
@@ -81,10 +95,12 @@ namespace IngosAbpTemplate.HttpApi.Host
 
             app.UseAuthorization();
 
+            app.UseHealthChecks("/health");
+
             app.UseSwagger();
             app.UseAbpSwaggerUI(options =>
             {
-                options.SwaggerEndpoint("/swagger/v1/swagger.json", "IngosAbpTemplate API");
+                options.SwaggerEndpoint("/swagger/v1/swagger.json", "IngosAbpTemplate API v1");
 
                 // Inject custom js to export api doc
                 //
@@ -106,7 +122,7 @@ namespace IngosAbpTemplate.HttpApi.Host
 
         #region Methods
 
-        private void ConfigureAuditing(IServiceCollection context)
+        private void ConfigureAuditing(ServiceConfigurationContext context)
         {
             Configure<AbpAuditingOptions>(options =>
             {
@@ -142,18 +158,28 @@ namespace IngosAbpTemplate.HttpApi.Host
                 });
         }
 
-        private void ConfigureConventionalControllers(IServiceCollection services)
+        private void ConfigureConventionalControllers(ServiceConfigurationContext context)
         {
-            Configure<AbpAspNetCoreMvcOptions>(options =>
-            {
-                options.ConventionalControllers.Create(typeof(IngosAbpTemplateApplicationModule).Assembly);
-            });
+            Configure<AbpAspNetCoreMvcOptions>(options => { context.Services.ExecutePreConfiguredActions(options); });
 
             // Use lowercase routing and lowercase query string
-            services.AddRouting(options =>
+            context.Services.AddRouting(options =>
             {
                 options.LowercaseUrls = true;
                 options.LowercaseQueryStrings = true;
+            });
+
+            context.Services.AddAbpApiVersioning(options =>
+            {
+                options.ReportApiVersions = true;
+                options.AssumeDefaultVersionWhenUnspecified = true;
+
+                options.DefaultApiVersion = new ApiVersion(1, 0);
+
+                options.ApiVersionReader = new UrlSegmentApiVersionReader();
+
+                var mvcOptions = context.Services.ExecutePreConfiguredActions<AbpAspNetCoreMvcOptions>();
+                options.ConfigureAbp(mvcOptions);
             });
         }
 
