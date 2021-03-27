@@ -6,7 +6,11 @@
   </PropertyGroup>
 
   <PropertyGroup Condition="'$(Configuration)|$(Platform)'=='Debug|AnyCPU'">
-    <DocumentationFile>../IngosAbpTemplate.HttpApi.Host/wwwroot/api-doc/Application.Contracts.xml</DocumentationFile>
+    <DocumentationFile>../IngosAbpTemplate.API/wwwroot/api-doc/IngosAbpTemplate.Application.Contracts.xml</DocumentationFile>
+  </PropertyGroup>
+
+  <PropertyGroup Condition=" '$(Configuration)' == 'Release' ">
+    <DocumentationFile>../IngosAbpTemplate.API/wwwroot/api-doc/IngosAbpTemplate.Application.Contracts.xml</DocumentationFile>
   </PropertyGroup>
 
   <ItemGroup>

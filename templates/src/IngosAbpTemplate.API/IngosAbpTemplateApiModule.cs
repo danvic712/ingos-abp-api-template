@@ -209,9 +209,9 @@ namespace IngosAbpTemplate.API
                     //
                     var paths = new List<string>
                     {
-                        @"wwwroot\api-doc\Application.Contracts.xml",
-                        @"wwwroot\api-doc\Application.xml",
-                        @"wwwroot\api-doc\HttpApi.Host.xml"
+                        @"wwwroot\api-doc\IngosAbpTemplate.API.xml",
+                        @"wwwroot\api-doc\IngosAbpTemplate.Application.xml",
+                        @"wwwroot\api-doc\IngosAbpTemplate.Application.Contracts.xml"
                     };
                     GetApiDocPaths(paths, Path.GetDirectoryName(AppContext.BaseDirectory))
                         .ForEach(x => options.IncludeXmlComments(x, true));
