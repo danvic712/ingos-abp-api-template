@@ -2,7 +2,7 @@
 
   <PropertyGroup>
     <PackageType>Template</PackageType>
-    <PackageVersion>1.0.2</PackageVersion>
+    <PackageVersion>1.0.3</PackageVersion>
     <PackageId>Ingos.Abp.Templates</PackageId>
     <Title>Ingos.Abp.Templates</Title>
     <Authors>Danvic Wang</Authors>
@@ -26,7 +26,7 @@
   </PropertyGroup>
 
   <ItemGroup>
-    <Content Include="templates\**\*" Exclude="templates\.vs\**;templates\**\Logs\**;templates\**\bin\**;templates\**\obj\**;" />
+    <Content Include="templates\**\*" Exclude="templates\.idea\**;templates\.vs\**;templates\**\Logs\**;templates\**\bin\**;templates\**\obj\**;" />
     <Compile Remove="**\*" />
   </ItemGroup>
 
