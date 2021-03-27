@@ -7,7 +7,7 @@ using IngosAbpTemplate.Application.Contracts;
 using IngosAbpTemplate.Domain;
 using IngosAbpTemplate.Domain.Shared;
 using IngosAbpTemplate.Domain.Shared.Localization;
-using IngosAbpTemplate.EntityFrameworkCore;
+using IngosAbpTemplate.Infrastructure;
 using Localization.Resources.AbpUi;
 using Microsoft.AspNetCore.Authentication.JwtBearer;
 using Microsoft.AspNetCore.Builder;
@@ -34,17 +34,17 @@ using Volo.Abp.PermissionManagement.HttpApi;
 using Volo.Abp.Swashbuckle;
 using Volo.Abp.VirtualFileSystem;
 
-namespace IngosAbpTemplate.HttpApi.Host
+namespace IngosAbpTemplate.API
 {
     [DependsOn(typeof(AbpAutofacModule),
         typeof(AbpCachingStackExchangeRedisModule),
         typeof(IngosAbpTemplateApplicationModule),
-        typeof(IngosAbpTemplateEntityFrameworkCoreModule),
+        typeof(IngosAbpTemplateInfrastructureModule),
         typeof(AbpPermissionManagementHttpApiModule),
         typeof(AbpAspNetCoreSerilogModule),
         typeof(AbpSwashbuckleModule)
     )]
-    public class IngosAbpTemplateHttpApiHostModule : AbpModule
+    public class IngosAbpTemplateApiModule : AbpModule
     {
         private const string DefaultCorsPolicyName = "IngosAbpTemplate";
 
@@ -101,11 +101,6 @@ namespace IngosAbpTemplate.HttpApi.Host
             app.UseAbpSwaggerUI(options =>
             {
                 options.SwaggerEndpoint("/swagger/v1/swagger.json", "IngosAbpTemplate API v1");
-
-                // Inject custom js to export api doc
-                //
-                options.InjectJavascript("/swagger-ui/export.js");
-                options.InjectJavascript("/swagger-ui/rapipdf-min.js");
 
                 var configuration = context.GetConfiguration();
                 options.OAuthClientId(configuration["AuthServer:SwaggerClientId"]);
@@ -204,7 +199,7 @@ namespace IngosAbpTemplate.HttpApi.Host
                 },
                 options =>
                 {
-                    options.SwaggerDoc("v1", new OpenApiInfo { Title = "IngosAbpTemplate API", Version = "v1" });
+                    options.SwaggerDoc("v1", new OpenApiInfo {Title = "IngosAbpTemplate API", Version = "v1"});
                     options.DocInclusionPredicate((docName, description) => true);
 
                     // Let params use the camel naming method
@@ -282,8 +277,8 @@ namespace IngosAbpTemplate.HttpApi.Host
         private static List<string> GetApiDocPaths(IEnumerable<string> paths, string basePath)
         {
             var files = from path in paths
-                        let xml = Path.Combine(basePath, path)
-                        select xml;
+                let xml = Path.Combine(basePath, path)
+                select xml;
 
             return files.ToList();
         }

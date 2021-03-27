@@ -4,7 +4,7 @@ using Microsoft.Extensions.Hosting;
 using Serilog;
 using Serilog.Events;
 
-namespace IngosAbpTemplate.HttpApi.Host
+namespace IngosAbpTemplate.API
 {
     public class Program
     {
@@ -27,7 +27,7 @@ namespace IngosAbpTemplate.HttpApi.Host
 
             try
             {
-                Log.Information("Starting IngosAbpTemplate.HttpApi.Host");
+                Log.Information("Starting IngosAbpTemplate.API");
                 CreateHostBuilder(args).Build().Run();
                 return 0;
             }
@@ -44,7 +44,7 @@ namespace IngosAbpTemplate.HttpApi.Host
 
         internal static IHostBuilder CreateHostBuilder(string[] args)
         {
-            return Microsoft.Extensions.Hosting.Host.CreateDefaultBuilder(args)
+            return Host.CreateDefaultBuilder(args)
                 .ConfigureWebHostDefaults(webBuilder => { webBuilder.UseStartup<Startup>(); })
                 .UseAutofac()
                 .UseSerilog();

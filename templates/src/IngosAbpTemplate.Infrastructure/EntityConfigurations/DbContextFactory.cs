@@ -13,7 +13,7 @@ using Microsoft.EntityFrameworkCore;
 using Microsoft.EntityFrameworkCore.Design;
 using Microsoft.Extensions.Configuration;
 
-namespace IngosAbpTemplate.EntityFrameworkCore.EntityConfigurations
+namespace IngosAbpTemplate.Infrastructure.EntityConfigurations
 {
     public class DbContextFactory : IDesignTimeDbContextFactory<IngosAbpTemplateDbContext>
     {
@@ -43,7 +43,7 @@ namespace IngosAbpTemplate.EntityFrameworkCore.EntityConfigurations
         private static IConfigurationRoot BuildConfiguration()
         {
             var builder = new ConfigurationBuilder()
-                .SetBasePath(Path.Combine(Directory.GetCurrentDirectory(), "../IngosAbpTemplate.HttpApi.Host/"))
+                .SetBasePath(Path.Combine(Directory.GetCurrentDirectory(), "../IngosAbpTemplate.API/"))
                 .AddJsonFile("appsettings.json", false);
 
             return builder.Build();

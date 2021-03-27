@@ -1,11 +1,11 @@
 ﻿using IngosAbpTemplate.Domain.Shared;
 using Volo.Abp.Threading;
 
-namespace IngosAbpTemplate.EntityFrameworkCore.EntityConfigurations
+namespace IngosAbpTemplate.Infrastructure.EntityConfigurations
 {
     public static class EntityExtraPropertyExtensionMappings
     {
-        private static readonly OneTimeRunner OneTimeRunner = new OneTimeRunner();
+        private static readonly OneTimeRunner OneTimeRunner = new();
 
         public static void Configure()
         {

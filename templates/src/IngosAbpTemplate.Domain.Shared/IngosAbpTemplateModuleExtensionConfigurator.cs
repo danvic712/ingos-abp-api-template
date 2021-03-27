@@ -4,7 +4,7 @@ namespace IngosAbpTemplate.Domain.Shared
 {
     public static class IngosAbpTemplateModuleExtensionConfigurator
     {
-        private static readonly OneTimeRunner OneTimeRunner = new OneTimeRunner();
+        private static readonly OneTimeRunner OneTimeRunner = new();
 
         public static void Configure()
         {

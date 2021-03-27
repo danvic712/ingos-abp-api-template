@@ -11,7 +11,7 @@
 using IngosAbpTemplate.Domain.Shared.Localization;
 using Volo.Abp.AspNetCore.Mvc;
 
-namespace IngosAbpTemplate.HttpApi.Host.Controllers
+namespace IngosAbpTemplate.API.Controllers
 {
     /// <summary>
     ///     Base controller

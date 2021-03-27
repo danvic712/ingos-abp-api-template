@@ -5,17 +5,17 @@ VisualStudioVersion = 16.0.31025.194
 MinimumVisualStudioVersion = 10.0.40219.1
 Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "src", "src", "{D9A8DC95-89BA-4BA7-BA9A-DB1AE0A4263C}"
 EndProject
-Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "IngosAbpTemplate.EntityFrameworkCore", "src\IngosAbpTemplate.EntityFrameworkCore\IngosAbpTemplate.EntityFrameworkCore.csproj", "{8761DF91-83B3-4F44-836A-7BADCF4E5346}"
-EndProject
 Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "IngosAbpTemplate.Domain", "src\IngosAbpTemplate.Domain\IngosAbpTemplate.Domain.csproj", "{4AB79EEB-5626-4363-BE04-6C9560E0996E}"
 EndProject
 Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "IngosAbpTemplate.Application", "src\IngosAbpTemplate.Application\IngosAbpTemplate.Application.csproj", "{9EA811F1-3BE3-4D4C-A22F-B0C677A2F6C8}"
 EndProject
 Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "IngosAbpTemplate.Application.Contracts", "src\IngosAbpTemplate.Application.Contracts\IngosAbpTemplate.Application.Contracts.csproj", "{067F31EC-3153-4DBC-A173-AC892939E885}"
 EndProject
-Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "IngosAbpTemplate.HttpApi.Host", "src\IngosAbpTemplate.HttpApi.Host\IngosAbpTemplate.HttpApi.Host.csproj", "{D2683C86-4165-4A9F-95E7-06149842CC1F}"
+Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "IngosAbpTemplate.API", "src\IngosAbpTemplate.API\IngosAbpTemplate.API.csproj", "{D2683C86-4165-4A9F-95E7-06149842CC1F}"
 EndProject
 Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "IngosAbpTemplate.Domain.Shared", "src\IngosAbpTemplate.Domain.Shared\IngosAbpTemplate.Domain.Shared.csproj", "{198458A9-EC6A-459D-9026-41478CC95F74}"
+EndProject
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "IngosAbpTemplate.Infrastructure", "src\IngosAbpTemplate.Infrastructure\IngosAbpTemplate.Infrastructure.csproj", "{4C9190A3-F6B0-4829-BEA0-F089AD2F8F5C}"
 EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution
@@ -23,10 +23,6 @@ Global
 		Release|Any CPU = Release|Any CPU
 	EndGlobalSection
 	GlobalSection(ProjectConfigurationPlatforms) = postSolution
-		{8761DF91-83B3-4F44-836A-7BADCF4E5346}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
-		{8761DF91-83B3-4F44-836A-7BADCF4E5346}.Debug|Any CPU.Build.0 = Debug|Any CPU
-		{8761DF91-83B3-4F44-836A-7BADCF4E5346}.Release|Any CPU.ActiveCfg = Release|Any CPU
-		{8761DF91-83B3-4F44-836A-7BADCF4E5346}.Release|Any CPU.Build.0 = Release|Any CPU
 		{4AB79EEB-5626-4363-BE04-6C9560E0996E}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
 		{4AB79EEB-5626-4363-BE04-6C9560E0996E}.Debug|Any CPU.Build.0 = Debug|Any CPU
 		{4AB79EEB-5626-4363-BE04-6C9560E0996E}.Release|Any CPU.ActiveCfg = Release|Any CPU
@@ -47,17 +43,21 @@ Global
 		{198458A9-EC6A-459D-9026-41478CC95F74}.Debug|Any CPU.Build.0 = Debug|Any CPU
 		{198458A9-EC6A-459D-9026-41478CC95F74}.Release|Any CPU.ActiveCfg = Release|Any CPU
 		{198458A9-EC6A-459D-9026-41478CC95F74}.Release|Any CPU.Build.0 = Release|Any CPU
+		{4C9190A3-F6B0-4829-BEA0-F089AD2F8F5C}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{4C9190A3-F6B0-4829-BEA0-F089AD2F8F5C}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{4C9190A3-F6B0-4829-BEA0-F089AD2F8F5C}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{4C9190A3-F6B0-4829-BEA0-F089AD2F8F5C}.Release|Any CPU.Build.0 = Release|Any CPU
 	EndGlobalSection
 	GlobalSection(SolutionProperties) = preSolution
 		HideSolutionNode = FALSE
 	EndGlobalSection
 	GlobalSection(NestedProjects) = preSolution
-		{8761DF91-83B3-4F44-836A-7BADCF4E5346} = {D9A8DC95-89BA-4BA7-BA9A-DB1AE0A4263C}
 		{4AB79EEB-5626-4363-BE04-6C9560E0996E} = {D9A8DC95-89BA-4BA7-BA9A-DB1AE0A4263C}
 		{9EA811F1-3BE3-4D4C-A22F-B0C677A2F6C8} = {D9A8DC95-89BA-4BA7-BA9A-DB1AE0A4263C}
 		{067F31EC-3153-4DBC-A173-AC892939E885} = {D9A8DC95-89BA-4BA7-BA9A-DB1AE0A4263C}
 		{D2683C86-4165-4A9F-95E7-06149842CC1F} = {D9A8DC95-89BA-4BA7-BA9A-DB1AE0A4263C}
 		{198458A9-EC6A-459D-9026-41478CC95F74} = {D9A8DC95-89BA-4BA7-BA9A-DB1AE0A4263C}
+		{4C9190A3-F6B0-4829-BEA0-F089AD2F8F5C} = {D9A8DC95-89BA-4BA7-BA9A-DB1AE0A4263C}
 	EndGlobalSection
 	GlobalSection(ExtensibilityGlobals) = postSolution
 		SolutionGuid = {A3646993-1282-4046-91E7-749E6E9DFC95}

@@ -8,7 +8,7 @@
 // Description: Const value of generate database table
 //-----------------------------------------------------------------------
 
-namespace IngosAbpTemplate.EntityFrameworkCore.EntityConfigurations
+namespace IngosAbpTemplate.Infrastructure.EntityConfigurations
 {
     public class Consts
     {

@@ -1,20 +1,20 @@
 <?xml version="1.0"?>
 <doc>
     <assembly>
-        <name>IngosAbpTemplate.HttpApi.Host</name>
+        <name>IngosAbpTemplate.API</name>
     </assembly>
     <members>
-        <member name="T:IngosAbpTemplate.HttpApi.Host.Controllers.BaseController">
+        <member name="T:IngosAbpTemplate.API.Controllers.BaseController">
             <summary>
                 Base controller
             </summary>
         </member>
-        <member name="M:IngosAbpTemplate.HttpApi.Host.Controllers.BaseController.#ctor">
+        <member name="M:IngosAbpTemplate.API.Controllers.BaseController.#ctor">
             <summary>
                 The base controller
             </summary>
         </member>
-        <member name="M:IngosAbpTemplate.HttpApi.Host.IngosAbpTemplateHttpApiHostModule.GetApiDocPaths(System.Collections.Generic.IEnumerable{System.String},System.String)">
+        <member name="M:IngosAbpTemplate.API.IngosAbpTemplateApiModule.GetApiDocPaths(System.Collections.Generic.IEnumerable{System.String},System.String)">
             <summary>
                 Get the api description doc path
             </summary>

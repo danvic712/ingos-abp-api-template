@@ -1,20 +1,21 @@
 ﻿using IngosAbpTemplate.Domain;
-using IngosAbpTemplate.EntityFrameworkCore.EntityConfigurations;
+using IngosAbpTemplate.Infrastructure.EntityConfigurations;
 using Microsoft.Extensions.DependencyInjection;
 using Volo.Abp.AuditLogging.EntityFrameworkCore;
 using Volo.Abp.BackgroundJobs.EntityFrameworkCore;
 using Volo.Abp.EntityFrameworkCore;
+using Volo.Abp.EntityFrameworkCore.MySQL;
+using Volo.Abp.Modularity;
+using Volo.Abp.PermissionManagement.EntityFrameworkCore;
+
 #if MsSQL
 using Volo.Abp.EntityFrameworkCore.SqlServer;
 #elif PgSQL
 using Volo.Abp.EntityFrameworkCore.PostgreSql;
 #else
-using Volo.Abp.EntityFrameworkCore.MySQL;
 #endif
-using Volo.Abp.Modularity;
-using Volo.Abp.PermissionManagement.EntityFrameworkCore;
 
-namespace IngosAbpTemplate.EntityFrameworkCore
+namespace IngosAbpTemplate.Infrastructure
 {
     [DependsOn(
         typeof(IngosAbpTemplateDomainModule),
@@ -29,7 +30,7 @@ namespace IngosAbpTemplate.EntityFrameworkCore
         typeof(AbpAuditLoggingEntityFrameworkCoreModule),
         typeof(AbpPermissionManagementEntityFrameworkCoreModule)
     )]
-    public class IngosAbpTemplateEntityFrameworkCoreModule : AbpModule
+    public class IngosAbpTemplateInfrastructureModule : AbpModule
     {
         public override void PreConfigureServices(ServiceConfigurationContext context)
         {
@@ -42,7 +43,7 @@ namespace IngosAbpTemplate.EntityFrameworkCore
             {
                 /* Remove "includeAllEntities: true" to create
                  * default repositories only for aggregate roots */
-                options.AddDefaultRepositories(true);
+                options.AddDefaultRepositories();
             });
 
             Configure<AbpDbContextOptions>(options =>

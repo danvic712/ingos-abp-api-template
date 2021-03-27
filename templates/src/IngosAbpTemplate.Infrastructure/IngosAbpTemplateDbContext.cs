@@ -1,9 +1,9 @@
-﻿using IngosAbpTemplate.EntityFrameworkCore.EntityConfigurations;
+﻿using IngosAbpTemplate.Infrastructure.EntityConfigurations;
 using Microsoft.EntityFrameworkCore;
 using Volo.Abp.Data;
 using Volo.Abp.EntityFrameworkCore;
 
-namespace IngosAbpTemplate.EntityFrameworkCore
+namespace IngosAbpTemplate.Infrastructure
 {
     /* This is your actual DbContext used on runtime.
      * It includes only your entities.
@@ -32,12 +32,13 @@ namespace IngosAbpTemplate.EntityFrameworkCore
             base.OnModelCreating(builder);
 
             /* Configure the shared tables (with included modules) here */
-
             builder.ConfigureAbpEntities();
 
             /* Configure your own tables/entities inside the ConfigureIngosAbpTemplate method */
-
             builder.ConfigureIngosAbpTemplate();
+
+            // Due to https://github.com/abpframework/abp/pull/7849 has not release, adopt the temporary method
+            // ConfigureNamingConversion(builder);
         }
     }
 }

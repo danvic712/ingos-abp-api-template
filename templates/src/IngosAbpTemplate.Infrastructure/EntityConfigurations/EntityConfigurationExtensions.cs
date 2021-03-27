@@ -14,7 +14,7 @@ using Volo.Abp.AuditLogging.EntityFrameworkCore;
 using Volo.Abp.BackgroundJobs.EntityFrameworkCore;
 using Volo.Abp.PermissionManagement.EntityFrameworkCore;
 
-namespace IngosAbpTemplate.EntityFrameworkCore.EntityConfigurations
+namespace IngosAbpTemplate.Infrastructure.EntityConfigurations
 {
     public static class EntityConfigurationExtensions
     {
@@ -25,27 +25,27 @@ namespace IngosAbpTemplate.EntityFrameworkCore.EntityConfigurations
         {
             Check.NotNull(builder, nameof(builder));
 
-            // Audit logging module
-            //
-            //AbpAuditLoggingDbProperties.DbTablePrefix = $"{Consts.AbpDbTablePrefix}_";
             builder.ConfigureAuditLogging();
-
-            //builder.Entity<AuditLogAction>().ToTable($"{Consts.AbpDbTablePrefix}_Audit_Log_Actions".ToLower());
-            //builder.Entity<EntityPropertyChange>()
-            //    .ToTable($"{Consts.AbpDbTablePrefix}_Entity_Property_Changes".ToLower());
-            //builder.Entity<EntityChange>().ToTable($"{Consts.AbpDbTablePrefix}_Entity_Changes".ToLower());
-            //builder.Entity<AuditLog>().ToTable($"{Consts.AbpDbTablePrefix}_Audit_Logs".ToLower());
-
-            // Background job module
-            //
-            //BackgroundJobsDbProperties.DbTablePrefix = $"{Consts.AbpDbTablePrefix}_";
             builder.ConfigureBackgroundJobs();
-
-            //builder.Entity<BackgroundJobRecord>()
-            //    .ToTable($"{Consts.AbpDbTablePrefix}_Background_Jobs".ToLower());
-
-            // Permission module
             builder.ConfigurePermissionManagement();
+
+// #if MsSQL
+//             builder.ConfigureAuditLogging();
+//             builder.ConfigureBackgroundJobs();
+//             builder.ConfigurePermissionManagement();
+// #elif PgSQL
+//             // Due to https://github.com/abpframework/abp/pull/7849 has not release, adopt the temporary method
+//             //
+//             builder.ConfigureIngosAuditLogging();
+//             builder.ConfigureIngosBackgroundJobs();
+//             builder.ConfigureIngosPermissionManagement();
+// #else
+//             // Due to https://github.com/abpframework/abp/pull/7849 has not release, adopt the temporary method
+//             //
+//             builder.ConfigureIngosAuditLogging();
+//             builder.ConfigureIngosBackgroundJobs();
+//             builder.ConfigureIngosPermissionManagement();
+// #endif
         }
 
         /// <summary>
