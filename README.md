@@ -31,6 +31,8 @@ When you see the following picture, it means that the template has been installe
 
 ![install](resource/images/install.png)
 
+
+
 ### 2、How to use
 
 After you have installed this template, you can use dotnet cli to create a new project based on this template, just like the following shell.
@@ -49,6 +51,10 @@ dotnet new ingos-abp-api --help
 Or you can using the latest Visual Studio to create the project, but please note that this cannot modify the default database option. The default database is MySQL.
 
 ![creation](resource/images/creation.png)
+
+When you create a new project, you need to change the connection string first
+
+
 
 ### 3、Uninstall
 

@@ -2,12 +2,12 @@
 
   <PropertyGroup>
     <PackageType>Template</PackageType>
-    <PackageVersion>1.0.3</PackageVersion>
+    <PackageVersion>1.0.4</PackageVersion>
     <PackageId>Ingos.Abp.Templates</PackageId>
     <Title>Ingos.Abp.Templates</Title>
     <Authors>Danvic Wang</Authors>
     <Description>Ingos Web API with ABP Framework</Description>
-    <PackageTags>dotnet-new;templates;abp;domain-driven-design</PackageTags>
+    <PackageTags>dotnet-new;templates;abp;domain-driven-design;architecture;dapr</PackageTags>
 
     <TargetFramework>net5.0</TargetFramework>
 
