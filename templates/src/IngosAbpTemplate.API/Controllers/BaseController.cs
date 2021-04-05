@@ -14,12 +14,12 @@ using Volo.Abp.AspNetCore.Mvc;
 namespace IngosAbpTemplate.API.Controllers
 {
     /// <summary>
-    ///     Base controller
+    /// Base controller
     /// </summary>
     public abstract class BaseController : AbpController
     {
         /// <summary>
-        ///     The base controller
+        /// The base controller
         /// </summary>
         protected BaseController()
         {

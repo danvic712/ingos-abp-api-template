@@ -5,6 +5,9 @@ using Microsoft.Extensions.Logging;
 
 namespace IngosAbpTemplate.API
 {
+    /// <summary>
+    /// Application start up configuration
+    /// </summary>
     public class Startup
     {
         public void ConfigureServices(IServiceCollection services)
@@ -12,7 +15,7 @@ namespace IngosAbpTemplate.API
             services.AddApplication<IngosAbpTemplateApiModule>();
         }
 
-        public void Configure(IApplicationBuilder app, IWebHostEnvironment env, ILoggerFactory loggerFactory)
+        public void Configure(IApplicationBuilder app, IWebHostEnvironment env)
         {
             app.InitializeApplication();
         }

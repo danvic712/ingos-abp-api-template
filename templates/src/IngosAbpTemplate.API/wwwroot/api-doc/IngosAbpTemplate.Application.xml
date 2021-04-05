@@ -9,6 +9,11 @@
             AutoMapper object mapper profile
             </summary>
         </member>
+        <member name="T:IngosAbpTemplate.Application.IngosAbpTemplateApplicationModule">
+            <summary>
+            Application Module
+            </summary>
+        </member>
         <member name="T:IngosAbpTemplate.Application.IngosAbpTemplateAppService">
             <summary>
             Inherit your application services from this class.

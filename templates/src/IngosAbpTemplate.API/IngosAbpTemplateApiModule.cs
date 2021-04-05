@@ -2,6 +2,7 @@ using System;
 using System.Collections.Generic;
 using System.IO;
 using System.Linq;
+using IngosAbpTemplate.API.Infrastructure;
 using IngosAbpTemplate.Application;
 using IngosAbpTemplate.Application.Contracts;
 using IngosAbpTemplate.Domain;
@@ -15,6 +16,7 @@ using Microsoft.AspNetCore.Cors;
 using Microsoft.AspNetCore.DataProtection;
 using Microsoft.AspNetCore.Hosting;
 using Microsoft.AspNetCore.Mvc;
+using Microsoft.AspNetCore.Mvc.ApiExplorer;
 using Microsoft.AspNetCore.Mvc.Versioning;
 using Microsoft.Extensions.Configuration;
 using Microsoft.Extensions.DependencyInjection;
@@ -30,6 +32,7 @@ using Volo.Abp.Caching;
 using Volo.Abp.Caching.StackExchangeRedis;
 using Volo.Abp.Localization;
 using Volo.Abp.Modularity;
+using Volo.Abp.PermissionManagement;
 using Volo.Abp.PermissionManagement.HttpApi;
 using Volo.Abp.Swashbuckle;
 using Volo.Abp.VirtualFileSystem;
@@ -54,7 +57,12 @@ namespace IngosAbpTemplate.API
         {
             PreConfigure<AbpAspNetCoreMvcOptions>(options =>
             {
+                // Set dynamic api router with api version info
                 options.ConventionalControllers.Create(typeof(IngosAbpTemplateApplicationModule).Assembly,
+                    opts => { opts.RootPath = "v{version:apiVersion}"; });
+
+                // Specify version info for framework built-in api
+                options.ConventionalControllers.Create(typeof(AbpPermissionManagementHttpApiModule).Assembly,
                     opts => { opts.ApiVersions.Add(new ApiVersion(1, 0)); });
             });
         }
@@ -100,7 +108,17 @@ namespace IngosAbpTemplate.API
             app.UseSwagger();
             app.UseAbpSwaggerUI(options =>
             {
-                options.SwaggerEndpoint("/swagger/v1/swagger.json", "IngosAbpTemplate API v1");
+                options.DocumentTitle = "IngosAbpTemplate API";
+
+                // Display latest api version by default
+                //
+                var provider = context.ServiceProvider.GetRequiredService<IApiVersionDescriptionProvider>();
+                var apiVersionList = provider.ApiVersionDescriptions
+                    .Select(i => $"v{i.ApiVersion.MajorVersion}")
+                    .Distinct().Reverse();
+                foreach (var apiVersion in apiVersionList)
+                    options.SwaggerEndpoint($"/swagger/{apiVersion}/swagger.json",
+                        $"IngosAbpTemplate API {apiVersion?.ToUpperInvariant()}");
 
                 var configuration = context.GetConfiguration();
                 options.OAuthClientId(configuration["AuthServer:SwaggerClientId"]);
@@ -167,6 +185,7 @@ namespace IngosAbpTemplate.API
             context.Services.AddAbpApiVersioning(options =>
             {
                 options.ReportApiVersions = true;
+
                 options.AssumeDefaultVersionWhenUnspecified = true;
 
                 options.DefaultApiVersion = new ApiVersion(1, 0);
@@ -175,6 +194,13 @@ namespace IngosAbpTemplate.API
 
                 var mvcOptions = context.Services.ExecutePreConfiguredActions<AbpAspNetCoreMvcOptions>();
                 options.ConfigureAbp(mvcOptions);
+            });
+
+            context.Services.AddVersionedApiExplorer(option =>
+            {
+                option.GroupNameFormat = "'v'VVV";
+
+                option.AssumeDefaultVersionWhenUnspecified = true;
             });
         }
 
@@ -199,11 +225,48 @@ namespace IngosAbpTemplate.API
                 },
                 options =>
                 {
-                    options.SwaggerDoc("v1", new OpenApiInfo {Title = "IngosAbpTemplate API", Version = "v1"});
-                    options.DocInclusionPredicate((docName, description) => true);
+                    // Get application api version info
+                    var provider = context.Services.BuildServiceProvider()
+                        .GetRequiredService<IApiVersionDescriptionProvider>();
+
+                    // Generate swagger by api major version
+                    foreach (var description in provider.ApiVersionDescriptions)
+                        options.SwaggerDoc(description.GroupName, new OpenApiInfo
+                        {
+                            Contact = new OpenApiContact
+                            {
+                                Name = "Danvic Wang",
+                                Email = "danvic.wang@outlook.com",
+                                Url = new Uri("https://yuiter.com")
+                            },
+                            Description = "IngosAbpTemplate API",
+                            Title = "IngosAbpTemplate API",
+                            Version = $"v{description.ApiVersion.MajorVersion}"
+                        });
+
+                    options.DocInclusionPredicate((docName, description) =>
+                    {
+                        // Get api major version
+                        var apiVersion = $"v{description.GetApiVersion().MajorVersion}";
+
+                        if (!docName.Equals(apiVersion))
+                            return false;
+
+                        // Replace router parameter
+                        var values = description.RelativePath
+                            .Split('/')
+                            .Select(v => v.Replace("v{version}", apiVersion));
+
+                        description.RelativePath = string.Join("/", values);
+
+                        return true;
+                    });
 
                     // Let params use the camel naming method
                     options.DescribeAllParametersInCamelCase();
+
+                    // 取消 API 文档需要输入版本信息
+                    options.OperationFilter<RemoveVersionFromParameter>();
 
                     // Inject api and dto comments
                     //
@@ -269,7 +332,7 @@ namespace IngosAbpTemplate.API
         }
 
         /// <summary>
-        ///     Get the api description doc path
+        /// Get the api description doc path
         /// </summary>
         /// <param name="paths">The xml file path</param>
         /// <param name="basePath">The site's base running files path</param>

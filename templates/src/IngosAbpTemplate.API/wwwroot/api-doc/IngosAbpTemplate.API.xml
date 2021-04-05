@@ -6,21 +6,36 @@
     <members>
         <member name="T:IngosAbpTemplate.API.Controllers.BaseController">
             <summary>
-                Base controller
+            Base controller
             </summary>
         </member>
         <member name="M:IngosAbpTemplate.API.Controllers.BaseController.#ctor">
             <summary>
-                The base controller
+            The base controller
+            </summary>
+        </member>
+        <member name="T:IngosAbpTemplate.API.Infrastructure.RemoveVersionFromParameter">
+            <summary>
+            Remove api version param from swagger doc
+            </summary>
+        </member>
+        <member name="M:IngosAbpTemplate.API.Infrastructure.RemoveVersionFromParameter.Apply(Microsoft.OpenApi.Models.OpenApiOperation,Swashbuckle.AspNetCore.SwaggerGen.OperationFilterContext)">
+            <summary>
+            Apply the filter rule
             </summary>
         </member>
         <member name="M:IngosAbpTemplate.API.IngosAbpTemplateApiModule.GetApiDocPaths(System.Collections.Generic.IEnumerable{System.String},System.String)">
             <summary>
-                Get the api description doc path
+            Get the api description doc path
             </summary>
             <param name="paths">The xml file path</param>
             <param name="basePath">The site's base running files path</param>
             <returns></returns>
+        </member>
+        <member name="T:IngosAbpTemplate.API.Startup">
+            <summary>
+            Application start up configuration
+            </summary>
         </member>
     </members>
 </doc>
