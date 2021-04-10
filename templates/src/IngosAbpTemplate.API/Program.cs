@@ -6,8 +6,16 @@ using Serilog.Events;
 
 namespace IngosAbpTemplate.API
 {
+    /// <summary>
+    /// 
+    /// </summary>
     public class Program
     {
+        /// <summary>
+        /// 
+        /// </summary>
+        /// <param name="args"></param>
+        /// <returns></returns>
         public static int Main(string[] args)
         {
             Log.Logger = new LoggerConfiguration()
@@ -42,7 +50,7 @@ namespace IngosAbpTemplate.API
             }
         }
 
-        internal static IHostBuilder CreateHostBuilder(string[] args)
+        private static IHostBuilder CreateHostBuilder(string[] args)
         {
             return Host.CreateDefaultBuilder(args)
                 .ConfigureWebHostDefaults(webBuilder => { webBuilder.UseStartup<Startup>(); })

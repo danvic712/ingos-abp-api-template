@@ -14,7 +14,6 @@ using Microsoft.AspNetCore.Authentication.JwtBearer;
 using Microsoft.AspNetCore.Builder;
 using Microsoft.AspNetCore.Cors;
 using Microsoft.AspNetCore.DataProtection;
-using Microsoft.AspNetCore.Hosting;
 using Microsoft.AspNetCore.Mvc;
 using Microsoft.AspNetCore.Mvc.ApiExplorer;
 using Microsoft.AspNetCore.Mvc.Versioning;
@@ -32,13 +31,15 @@ using Volo.Abp.Caching;
 using Volo.Abp.Caching.StackExchangeRedis;
 using Volo.Abp.Localization;
 using Volo.Abp.Modularity;
-using Volo.Abp.PermissionManagement;
 using Volo.Abp.PermissionManagement.HttpApi;
 using Volo.Abp.Swashbuckle;
 using Volo.Abp.VirtualFileSystem;
 
 namespace IngosAbpTemplate.API
 {
+    /// <summary>
+    /// 
+    /// </summary>
     [DependsOn(typeof(AbpAutofacModule),
         typeof(AbpCachingStackExchangeRedisModule),
         typeof(IngosAbpTemplateApplicationModule),
@@ -53,6 +54,10 @@ namespace IngosAbpTemplate.API
 
         #region Services
 
+        /// <summary>
+        /// 
+        /// </summary>
+        /// <param name="context"></param>
         public override void PreConfigureServices(ServiceConfigurationContext context)
         {
             PreConfigure<AbpAspNetCoreMvcOptions>(options =>
@@ -67,6 +72,10 @@ namespace IngosAbpTemplate.API
             });
         }
 
+        /// <summary>
+        /// 
+        /// </summary>
+        /// <param name="context"></param>
         public override void ConfigureServices(ServiceConfigurationContext context)
         {
             var configuration = context.Services.GetConfiguration();
@@ -75,17 +84,21 @@ namespace IngosAbpTemplate.API
             context.Services.AddHttpClient();
             context.Services.AddHealthChecks();
 
-            ConfigureAuditing(context);
+            ConfigureAuditing();
             ConfigureConventionalControllers(context);
             ConfigureAuthentication(context, configuration);
             ConfigureLocalization();
-            ConfigureCache(configuration);
+            ConfigureCache();
             ConfigureVirtualFileSystem(context);
             ConfigureRedis(context, configuration, hostingEnvironment);
             ConfigureCors(context, configuration);
             ConfigureSwaggerServices(context, configuration);
         }
 
+        /// <summary>
+        /// 
+        /// </summary>
+        /// <param name="context"></param>
         public override void OnApplicationInitialization(ApplicationInitializationContext context)
         {
             var app = context.GetApplicationBuilder();
@@ -135,7 +148,7 @@ namespace IngosAbpTemplate.API
 
         #region Methods
 
-        private void ConfigureAuditing(ServiceConfigurationContext context)
+        private void ConfigureAuditing()
         {
             Configure<AbpAuditingOptions>(options =>
             {
@@ -144,7 +157,7 @@ namespace IngosAbpTemplate.API
             });
         }
 
-        private void ConfigureCache(IConfiguration configuration)
+        private void ConfigureCache()
         {
             Configure<AbpDistributedCacheOptions>(options => { options.KeyPrefix = "IngosAbpTemplate:"; });
         }
@@ -204,7 +217,7 @@ namespace IngosAbpTemplate.API
             });
         }
 
-        private void ConfigureAuthentication(ServiceConfigurationContext context, IConfiguration configuration)
+        private static void ConfigureAuthentication(ServiceConfigurationContext context, IConfiguration configuration)
         {
             context.Services.AddAuthentication(JwtBearerDefaults.AuthenticationScheme)
                 .AddJwtBearer(options =>
@@ -265,7 +278,7 @@ namespace IngosAbpTemplate.API
                     // Let params use the camel naming method
                     options.DescribeAllParametersInCamelCase();
 
-                    // 取消 API 文档需要输入版本信息
+                    // Cancel api version parameter in swagger doc
                     options.OperationFilter<RemoveVersionFromParameter>();
 
                     // Inject api and dto comments
@@ -297,19 +310,19 @@ namespace IngosAbpTemplate.API
             });
         }
 
-        private void ConfigureRedis(ServiceConfigurationContext context, IConfiguration configuration,
-            IWebHostEnvironment hostingEnvironment)
+        private static void ConfigureRedis(ServiceConfigurationContext context, IConfiguration configuration,
+            IHostEnvironment hostingEnvironment)
         {
-            if (!hostingEnvironment.IsDevelopment())
-            {
-                var redis = ConnectionMultiplexer.Connect(configuration["Redis:Configuration"]);
-                context.Services
-                    .AddDataProtection()
-                    .PersistKeysToStackExchangeRedis(redis, "IngosAbpTemplate-Protection-Keys");
-            }
+            if (hostingEnvironment.IsDevelopment())
+                return;
+
+            var redis = ConnectionMultiplexer.Connect(configuration["Redis:Configuration"]);
+            context.Services
+                .AddDataProtection()
+                .PersistKeysToStackExchangeRedis(redis, "IngosAbpTemplate-Protection-Keys");
         }
 
-        private void ConfigureCors(ServiceConfigurationContext context, IConfiguration configuration)
+        private static void ConfigureCors(ServiceConfigurationContext context, IConfiguration configuration)
         {
             context.Services.AddCors(options =>
             {
