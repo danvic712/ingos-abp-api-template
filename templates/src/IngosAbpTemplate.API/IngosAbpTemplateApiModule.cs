@@ -14,6 +14,7 @@ using Microsoft.AspNetCore.Authentication.JwtBearer;
 using Microsoft.AspNetCore.Builder;
 using Microsoft.AspNetCore.Cors;
 using Microsoft.AspNetCore.DataProtection;
+using Microsoft.AspNetCore.Hosting;
 using Microsoft.AspNetCore.Mvc;
 using Microsoft.AspNetCore.Mvc.ApiExplorer;
 using Microsoft.AspNetCore.Mvc.Versioning;
@@ -37,9 +38,6 @@ using Volo.Abp.VirtualFileSystem;
 
 namespace IngosAbpTemplate.API
 {
-    /// <summary>
-    /// 
-    /// </summary>
     [DependsOn(typeof(AbpAutofacModule),
         typeof(AbpCachingStackExchangeRedisModule),
         typeof(IngosAbpTemplateApplicationModule),
@@ -50,14 +48,10 @@ namespace IngosAbpTemplate.API
     )]
     public class IngosAbpTemplateApiModule : AbpModule
     {
-        private const string DefaultCorsPolicyName = "IngosAbpTemplate";
+        private const string CorsPolicyName = "IngosAbpTemplate";
 
         #region Services
 
-        /// <summary>
-        /// 
-        /// </summary>
-        /// <param name="context"></param>
         public override void PreConfigureServices(ServiceConfigurationContext context)
         {
             PreConfigure<AbpAspNetCoreMvcOptions>(options =>
@@ -72,33 +66,26 @@ namespace IngosAbpTemplate.API
             });
         }
 
-        /// <summary>
-        /// 
-        /// </summary>
-        /// <param name="context"></param>
         public override void ConfigureServices(ServiceConfigurationContext context)
         {
             var configuration = context.Services.GetConfiguration();
             var hostingEnvironment = context.Services.GetHostingEnvironment();
 
             context.Services.AddHttpClient();
-            context.Services.AddHealthChecks();
 
-            ConfigureAuditing();
+            ConfigureHealthChecks(context);
+            ConfigureAuditing(context);
             ConfigureConventionalControllers(context);
             ConfigureAuthentication(context, configuration);
             ConfigureLocalization();
-            ConfigureCache();
+            ConfigureCache(configuration);
             ConfigureVirtualFileSystem(context);
             ConfigureRedis(context, configuration, hostingEnvironment);
             ConfigureCors(context, configuration);
             ConfigureSwaggerServices(context, configuration);
         }
 
-        /// <summary>
-        /// 
-        /// </summary>
-        /// <param name="context"></param>
+
         public override void OnApplicationInitialization(ApplicationInitializationContext context)
         {
             var app = context.GetApplicationBuilder();
@@ -111,7 +98,7 @@ namespace IngosAbpTemplate.API
             app.UseCorrelationId();
             app.UseVirtualFiles();
             app.UseRouting();
-            app.UseCors(DefaultCorsPolicyName);
+            app.UseCors(CorsPolicyName);
             app.UseAuthentication();
 
             app.UseAuthorization();
@@ -148,7 +135,15 @@ namespace IngosAbpTemplate.API
 
         #region Methods
 
-        private void ConfigureAuditing()
+        private static void ConfigureHealthChecks(ServiceConfigurationContext context)
+        {
+            context.Services.AddHealthChecks()
+                .AddDbContextCheck<IngosAbpTemplateDbContext>();
+
+            // Todo: adapt k8s probes
+        }
+
+        private void ConfigureAuditing(ServiceConfigurationContext context)
         {
             Configure<AbpAuditingOptions>(options =>
             {
@@ -157,7 +152,7 @@ namespace IngosAbpTemplate.API
             });
         }
 
-        private void ConfigureCache()
+        private void ConfigureCache(IConfiguration configuration)
         {
             Configure<AbpDistributedCacheOptions>(options => { options.KeyPrefix = "IngosAbpTemplate:"; });
         }
@@ -217,7 +212,7 @@ namespace IngosAbpTemplate.API
             });
         }
 
-        private static void ConfigureAuthentication(ServiceConfigurationContext context, IConfiguration configuration)
+        private void ConfigureAuthentication(ServiceConfigurationContext context, IConfiguration configuration)
         {
             context.Services.AddAuthentication(JwtBearerDefaults.AuthenticationScheme)
                 .AddJwtBearer(options =>
@@ -278,7 +273,7 @@ namespace IngosAbpTemplate.API
                     // Let params use the camel naming method
                     options.DescribeAllParametersInCamelCase();
 
-                    // Cancel api version parameter in swagger doc
+                    // 取消 API 文档需要输入版本信息
                     options.OperationFilter<RemoveVersionFromParameter>();
 
                     // Inject api and dto comments
@@ -310,23 +305,23 @@ namespace IngosAbpTemplate.API
             });
         }
 
-        private static void ConfigureRedis(ServiceConfigurationContext context, IConfiguration configuration,
-            IHostEnvironment hostingEnvironment)
+        private void ConfigureRedis(ServiceConfigurationContext context, IConfiguration configuration,
+            IWebHostEnvironment hostingEnvironment)
         {
-            if (hostingEnvironment.IsDevelopment())
-                return;
-
-            var redis = ConnectionMultiplexer.Connect(configuration["Redis:Configuration"]);
-            context.Services
-                .AddDataProtection()
-                .PersistKeysToStackExchangeRedis(redis, "IngosAbpTemplate-Protection-Keys");
+            if (!hostingEnvironment.IsDevelopment())
+            {
+                var redis = ConnectionMultiplexer.Connect(configuration["Redis:Configuration"]);
+                context.Services
+                    .AddDataProtection()
+                    .PersistKeysToStackExchangeRedis(redis, "IngosAbpTemplate-Protection-Keys");
+            }
         }
 
-        private static void ConfigureCors(ServiceConfigurationContext context, IConfiguration configuration)
+        private void ConfigureCors(ServiceConfigurationContext context, IConfiguration configuration)
         {
             context.Services.AddCors(options =>
             {
-                options.AddPolicy(DefaultCorsPolicyName, builder =>
+                options.AddPolicy(CorsPolicyName, builder =>
                 {
                     builder
                         .WithOrigins(

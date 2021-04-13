@@ -1,12 +1,11 @@
 ﻿using Microsoft.AspNetCore.Builder;
 using Microsoft.AspNetCore.Hosting;
 using Microsoft.Extensions.DependencyInjection;
-using Microsoft.Extensions.Logging;
 
 namespace IngosAbpTemplate.API
 {
     /// <summary>
-    /// Application start up configuration
+    ///     Application start up configuration
     /// </summary>
     public class Startup
     {
