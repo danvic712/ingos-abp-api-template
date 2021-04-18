@@ -15,12 +15,12 @@ using Swashbuckle.AspNetCore.SwaggerGen;
 namespace IngosAbpTemplate.API.Infrastructure
 {
     /// <summary>
-    /// Remove api version param from swagger doc
+    ///     Remove api version param from swagger doc
     /// </summary>
     public class RemoveVersionFromParameter : IOperationFilter
     {
         /// <summary>
-        /// Apply the filter rule
+        ///     Apply the filter rule
         /// </summary>
         public void Apply(OpenApiOperation operation, OperationFilterContext context)
         {
