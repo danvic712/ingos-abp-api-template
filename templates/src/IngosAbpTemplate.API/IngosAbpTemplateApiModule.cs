@@ -119,7 +119,7 @@ namespace IngosAbpTemplate.API
                 foreach (var apiVersion in apiVersionList)
                     options.SwaggerEndpoint($"/swagger/{apiVersion}/swagger.json",
                         $"IngosAbpTemplate API {apiVersion?.ToUpperInvariant()}");
-
+                
                 var configuration = context.GetConfiguration();
                 options.OAuthClientId(configuration["AuthServer:SwaggerClientId"]);
                 options.OAuthClientSecret(configuration["AuthServer:SwaggerClientSecret"]);
@@ -305,19 +305,19 @@ namespace IngosAbpTemplate.API
             });
         }
 
-        private void ConfigureRedis(ServiceConfigurationContext context, IConfiguration configuration,
-            IWebHostEnvironment hostingEnvironment)
+        private static void ConfigureRedis(ServiceConfigurationContext context, IConfiguration configuration,
+            IHostEnvironment hostingEnvironment)
         {
-            if (!hostingEnvironment.IsDevelopment())
-            {
-                var redis = ConnectionMultiplexer.Connect(configuration["Redis:Configuration"]);
-                context.Services
-                    .AddDataProtection()
-                    .PersistKeysToStackExchangeRedis(redis, "IngosAbpTemplate-Protection-Keys");
-            }
+            if (hostingEnvironment.IsDevelopment()) 
+                return;
+            
+            var redis = ConnectionMultiplexer.Connect(configuration["Redis:Configuration"]);
+            context.Services
+                .AddDataProtection()
+                .PersistKeysToStackExchangeRedis(redis, "IngosAbpTemplate-Protection-Keys");
         }
 
-        private void ConfigureCors(ServiceConfigurationContext context, IConfiguration configuration)
+        private static void ConfigureCors(ServiceConfigurationContext context, IConfiguration configuration)
         {
             context.Services.AddCors(options =>
             {

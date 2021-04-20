@@ -1,7 +1,7 @@
 # ingos-abp-api-template
-English | [简体中文](./README-zh.md)
+[English](./README.md) | 简体中文
 
-a simplified version of abp vnext web api template with integrated dapr
+这是一个集成了 dapr 的精简版 abp vnext web api 项目模板
 
 
 
@@ -13,7 +13,7 @@ a simplified version of abp vnext web api template with integrated dapr
 
 ## Get Started
 
-### 1、Install
+### 1、加载模板
 
 Similar to installing other dotnet tools, you can use `dotnet new`  command to install this template on your computer.
 
@@ -35,7 +35,7 @@ When you see the following picture, it means that the template has been installe
 
 
 
-### 2、How to use
+### 2、如何去使用
 
 After you have installed this template, you can use dotnet cli to create a new project based on this template, just like the following shell.
 
@@ -84,7 +84,7 @@ Now you can run this project, wait for the browser to open automatically and the
 
 
 
-### 3、Uninstall
+### 3、卸载模板
 
 ```shell
 -- it will uninstall this template from your computer
@@ -93,10 +93,10 @@ dotnet new -u Ingos.Abp.Templates
 
 
 
-## Reference
+## 参考引用
 
 If you want to find some related development documents, you can try from the link below
 
 1. [Implementing domain driven design using abp template](https://docs.abp.io/en/abp/latest/Domain-Driven-Design)
-2. [墨墨墨墨小宇's CnBlog Site(only Chinese)](https://www.cnblogs.com/danvic712/)
+2. [墨墨墨墨小宇's CnBlog Site(只包含中文版本)](https://www.cnblogs.com/danvic712/)
 
