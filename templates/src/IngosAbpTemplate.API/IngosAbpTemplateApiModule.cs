@@ -2,6 +2,8 @@ using System;
 using System.Collections.Generic;
 using System.IO;
 using System.Linq;
+using System.Text;
+using System.Threading.Tasks;
 using IngosAbpTemplate.API.Infrastructure;
 using IngosAbpTemplate.Application;
 using IngosAbpTemplate.Application.Contracts;
@@ -14,13 +16,13 @@ using Microsoft.AspNetCore.Authentication.JwtBearer;
 using Microsoft.AspNetCore.Builder;
 using Microsoft.AspNetCore.Cors;
 using Microsoft.AspNetCore.DataProtection;
-using Microsoft.AspNetCore.Hosting;
 using Microsoft.AspNetCore.Mvc;
 using Microsoft.AspNetCore.Mvc.ApiExplorer;
 using Microsoft.AspNetCore.Mvc.Versioning;
 using Microsoft.Extensions.Configuration;
 using Microsoft.Extensions.DependencyInjection;
 using Microsoft.Extensions.Hosting;
+using Microsoft.IdentityModel.Tokens;
 using Microsoft.OpenApi.Models;
 using StackExchange.Redis;
 using Volo.Abp;
@@ -106,7 +108,7 @@ namespace IngosAbpTemplate.API
             app.UseHealthChecks("/health");
 
             app.UseSwagger();
-            app.UseAbpSwaggerUI(options =>
+            app.UseSwaggerUI(options =>
             {
                 options.DocumentTitle = "IngosAbpTemplate API";
 
@@ -119,10 +121,6 @@ namespace IngosAbpTemplate.API
                 foreach (var apiVersion in apiVersionList)
                     options.SwaggerEndpoint($"/swagger/{apiVersion}/swagger.json",
                         $"IngosAbpTemplate API {apiVersion?.ToUpperInvariant()}");
-                
-                var configuration = context.GetConfiguration();
-                options.OAuthClientId(configuration["AuthServer:SwaggerClientId"]);
-                options.OAuthClientSecret(configuration["AuthServer:SwaggerClientSecret"]);
             });
 
             app.UseAuditing();
@@ -139,8 +137,6 @@ namespace IngosAbpTemplate.API
         {
             context.Services.AddHealthChecks()
                 .AddDbContextCheck<IngosAbpTemplateDbContext>();
-
-            // Todo: adapt k8s probes
         }
 
         private void ConfigureAuditing(ServiceConfigurationContext context)
@@ -212,27 +208,67 @@ namespace IngosAbpTemplate.API
             });
         }
 
-        private void ConfigureAuthentication(ServiceConfigurationContext context, IConfiguration configuration)
+        private static void ConfigureAuthentication(ServiceConfigurationContext context, IConfiguration configuration)
         {
-            context.Services.AddAuthentication(JwtBearerDefaults.AuthenticationScheme)
+            context.Services.AddAuthentication(options =>
+                {
+                    options.DefaultAuthenticateScheme = JwtBearerDefaults.AuthenticationScheme;
+                    options.DefaultScheme = JwtBearerDefaults.AuthenticationScheme;
+                    options.DefaultChallengeScheme = JwtBearerDefaults.AuthenticationScheme;
+                })
                 .AddJwtBearer(options =>
                 {
-                    options.Authority = configuration["AuthServer:Authority"];
+                    var key = Encoding.ASCII.GetBytes(configuration["AuthServer:Secret"]);
+                    var expiration = TimeSpan.FromMinutes(Convert.ToDouble(configuration["AuthServer:Expiration"]));
+
+                    options.SaveToken = true;
                     options.RequireHttpsMetadata = Convert.ToBoolean(configuration["AuthServer:RequireHttpsMetadata"]);
-                    options.Audience = "IngosAbpTemplate";
+                    options.Audience = configuration["AuthServer:Audience"];
+
+                    options.TokenValidationParameters = new TokenValidationParameters
+                    {
+                        ValidateIssuer = true,
+                        ValidateAudience = true,
+                        ValidateLifetime = true,
+                        ValidIssuer = configuration["AuthServer:Issuer"],
+                        ValidAudience = configuration["AuthServer:Audience"],
+                        IssuerSigningKey = new SymmetricSecurityKey(key),
+                        ClockSkew = expiration
+                    };
+
+                    options.Events = new JwtBearerEvents()
+                    {
+                        OnAuthenticationFailed = context =>
+                        {
+                            // Set token expired header
+                            if (context.Exception.GetType() == typeof(SecurityTokenExpiredException))
+                                context.Response.Headers.Add("Token-Expired", "true");
+
+                            return Task.CompletedTask;
+                        }
+                    };
                 });
         }
 
         private static void ConfigureSwaggerServices(ServiceConfigurationContext context, IConfiguration configuration)
         {
-            context.Services.AddAbpSwaggerGenWithOAuth(
-                configuration["AuthServer:Authority"],
-                new Dictionary<string, string>
-                {
-                    {"IngosAbpTemplate", "IngosAbpTemplate API"}
-                },
+            context.Services.AddSwaggerGen(
                 options =>
                 {
+                    // Add Jwt Authorize to http header
+                    options.AddSecurityDefinition("Bearer", new OpenApiSecurityScheme()
+                    {
+                        Description =
+                            "JWT Authorization header using the Bearer scheme. Example: \"Authorization: Bearer {token}\"",
+                        Name = "Authorization", // Jwt default param name
+                        In = ParameterLocation.Header, // Jwt store address
+                        Type = SecuritySchemeType.ApiKey // Security scheme type
+                    });
+                    // Add authentication type
+                    options.AddSecurityRequirement(new OpenApiSecurityRequirement()
+                    {
+                    });
+
                     // Get application api version info
                     var provider = context.Services.BuildServiceProvider()
                         .GetRequiredService<IApiVersionDescriptionProvider>();
@@ -308,9 +344,9 @@ namespace IngosAbpTemplate.API
         private static void ConfigureRedis(ServiceConfigurationContext context, IConfiguration configuration,
             IHostEnvironment hostingEnvironment)
         {
-            if (hostingEnvironment.IsDevelopment()) 
+            if (hostingEnvironment.IsDevelopment())
                 return;
-            
+
             var redis = ConnectionMultiplexer.Connect(configuration["Redis:Configuration"]);
             context.Services
                 .AddDataProtection()
