@@ -78,7 +78,6 @@ namespace IngosAbpTemplate.API
             ConfigureHealthChecks(context);
             ConfigureAuditing(context);
             ConfigureConventionalControllers(context);
-            ConfigureAuthentication(context, configuration);
             ConfigureLocalization();
             ConfigureCache(configuration);
             ConfigureVirtualFileSystem(context);
@@ -208,67 +207,11 @@ namespace IngosAbpTemplate.API
             });
         }
 
-        private static void ConfigureAuthentication(ServiceConfigurationContext context, IConfiguration configuration)
-        {
-            context.Services.AddAuthentication(options =>
-                {
-                    options.DefaultAuthenticateScheme = JwtBearerDefaults.AuthenticationScheme;
-                    options.DefaultScheme = JwtBearerDefaults.AuthenticationScheme;
-                    options.DefaultChallengeScheme = JwtBearerDefaults.AuthenticationScheme;
-                })
-                .AddJwtBearer(options =>
-                {
-                    var key = Encoding.ASCII.GetBytes(configuration["AuthServer:Secret"]);
-                    var expiration = TimeSpan.FromMinutes(Convert.ToDouble(configuration["AuthServer:Expiration"]));
-
-                    options.SaveToken = true;
-                    options.RequireHttpsMetadata = Convert.ToBoolean(configuration["AuthServer:RequireHttpsMetadata"]);
-                    options.Audience = configuration["AuthServer:Audience"];
-
-                    options.TokenValidationParameters = new TokenValidationParameters
-                    {
-                        ValidateIssuer = true,
-                        ValidateAudience = true,
-                        ValidateLifetime = true,
-                        ValidIssuer = configuration["AuthServer:Issuer"],
-                        ValidAudience = configuration["AuthServer:Audience"],
-                        IssuerSigningKey = new SymmetricSecurityKey(key),
-                        ClockSkew = expiration
-                    };
-
-                    options.Events = new JwtBearerEvents()
-                    {
-                        OnAuthenticationFailed = context =>
-                        {
-                            // Set token expired header
-                            if (context.Exception.GetType() == typeof(SecurityTokenExpiredException))
-                                context.Response.Headers.Add("Token-Expired", "true");
-
-                            return Task.CompletedTask;
-                        }
-                    };
-                });
-        }
-
         private static void ConfigureSwaggerServices(ServiceConfigurationContext context, IConfiguration configuration)
         {
             context.Services.AddSwaggerGen(
                 options =>
                 {
-                    // Add Jwt Authorize to http header
-                    options.AddSecurityDefinition("Bearer", new OpenApiSecurityScheme()
-                    {
-                        Description =
-                            "JWT Authorization header using the Bearer scheme. Example: \"Authorization: Bearer {token}\"",
-                        Name = "Authorization", // Jwt default param name
-                        In = ParameterLocation.Header, // Jwt store address
-                        Type = SecuritySchemeType.ApiKey // Security scheme type
-                    });
-                    // Add authentication type
-                    options.AddSecurityRequirement(new OpenApiSecurityRequirement()
-                    {
-                    });
-
                     // Get application api version info
                     var provider = context.Services.BuildServiceProvider()
                         .GetRequiredService<IApiVersionDescriptionProvider>();
