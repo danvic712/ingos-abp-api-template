@@ -4,6 +4,16 @@
         <name>IngosAbpTemplate.Application</name>
     </assembly>
     <members>
+        <member name="T:IngosAbpTemplate.Application.BaseAppService">
+            <summary>
+            Inherit your application services from this class.
+            </summary>
+        </member>
+        <member name="M:IngosAbpTemplate.Application.BaseAppService.#ctor">
+            <summary>
+            Base application service
+            </summary>
+        </member>
         <member name="T:IngosAbpTemplate.Application.IngosAbpTemplateApplicationAutoMapperProfile">
             <summary>
             AutoMapper object mapper profile
@@ -12,16 +22,6 @@
         <member name="T:IngosAbpTemplate.Application.IngosAbpTemplateApplicationModule">
             <summary>
             Application Module
-            </summary>
-        </member>
-        <member name="T:IngosAbpTemplate.Application.IngosAbpTemplateAppService">
-            <summary>
-            Inherit your application services from this class.
-            </summary>
-        </member>
-        <member name="M:IngosAbpTemplate.Application.IngosAbpTemplateAppService.#ctor">
-            <summary>
-            Base application service
             </summary>
         </member>
     </members>

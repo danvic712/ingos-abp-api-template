@@ -2,8 +2,6 @@ using System;
 using System.Collections.Generic;
 using System.IO;
 using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
 using IngosAbpTemplate.API.Infrastructure;
 using IngosAbpTemplate.Application;
 using IngosAbpTemplate.Application.Contracts;
@@ -12,7 +10,6 @@ using IngosAbpTemplate.Domain.Shared;
 using IngosAbpTemplate.Domain.Shared.Localization;
 using IngosAbpTemplate.Infrastructure;
 using Localization.Resources.AbpUi;
-using Microsoft.AspNetCore.Authentication.JwtBearer;
 using Microsoft.AspNetCore.Builder;
 using Microsoft.AspNetCore.Cors;
 using Microsoft.AspNetCore.DataProtection;
@@ -22,7 +19,6 @@ using Microsoft.AspNetCore.Mvc.Versioning;
 using Microsoft.Extensions.Configuration;
 using Microsoft.Extensions.DependencyInjection;
 using Microsoft.Extensions.Hosting;
-using Microsoft.IdentityModel.Tokens;
 using Microsoft.OpenApi.Models;
 using StackExchange.Redis;
 using Volo.Abp;
@@ -40,6 +36,9 @@ using Volo.Abp.VirtualFileSystem;
 
 namespace IngosAbpTemplate.API
 {
+    /// <summary>
+    /// Api module definition file
+    /// </summary>
     [DependsOn(typeof(AbpAutofacModule),
         typeof(AbpCachingStackExchangeRedisModule),
         typeof(IngosAbpTemplateApplicationModule),
@@ -54,6 +53,10 @@ namespace IngosAbpTemplate.API
 
         #region Services
 
+        /// <summary>
+        /// 
+        /// </summary>
+        /// <param name="context"></param>
         public override void PreConfigureServices(ServiceConfigurationContext context)
         {
             PreConfigure<AbpAspNetCoreMvcOptions>(options =>
@@ -68,6 +71,10 @@ namespace IngosAbpTemplate.API
             });
         }
 
+        /// <summary>
+        /// 
+        /// </summary>
+        /// <param name="context"></param>
         public override void ConfigureServices(ServiceConfigurationContext context)
         {
             var configuration = context.Services.GetConfiguration();
@@ -75,18 +82,22 @@ namespace IngosAbpTemplate.API
 
             context.Services.AddHttpClient();
 
+            context.Services.AddDaprClient();
+
             ConfigureHealthChecks(context);
-            ConfigureAuditing(context);
+            ConfigureAuditing(configuration);
             ConfigureConventionalControllers(context);
             ConfigureLocalization();
-            ConfigureCache(configuration);
             ConfigureVirtualFileSystem(context);
-            ConfigureRedis(context, configuration, hostingEnvironment);
+            ConfigureCache(context, configuration, hostingEnvironment);
             ConfigureCors(context, configuration);
-            ConfigureSwaggerServices(context, configuration);
+            ConfigureSwagger(context);
         }
 
-
+        /// <summary>
+        /// 
+        /// </summary>
+        /// <param name="context"></param>
         public override void OnApplicationInitialization(ApplicationInitializationContext context)
         {
             var app = context.GetApplicationBuilder();
@@ -97,7 +108,7 @@ namespace IngosAbpTemplate.API
             app.UseAbpRequestLocalization();
 
             app.UseCorrelationId();
-            app.UseVirtualFiles();
+            app.UseStaticFiles();
             app.UseRouting();
             app.UseCors(CorsPolicyName);
             app.UseAuthentication();
@@ -138,18 +149,15 @@ namespace IngosAbpTemplate.API
                 .AddDbContextCheck<IngosAbpTemplateDbContext>();
         }
 
-        private void ConfigureAuditing(ServiceConfigurationContext context)
+        private void ConfigureAuditing(IConfiguration configuration)
         {
+            var applicationName = configuration["App:ApplicationName"];
+
             Configure<AbpAuditingOptions>(options =>
             {
-                options.ApplicationName = "IngosAbpTemplate"; // Set the application name
+                options.ApplicationName = applicationName; // Set the application name
                 options.EntityHistorySelectors.AddAllEntities(); // Default saving all changes of entities
             });
-        }
-
-        private void ConfigureCache(IConfiguration configuration)
-        {
-            Configure<AbpDistributedCacheOptions>(options => { options.KeyPrefix = "IngosAbpTemplate:"; });
         }
 
         private void ConfigureVirtualFileSystem(ServiceConfigurationContext context)
@@ -207,7 +215,7 @@ namespace IngosAbpTemplate.API
             });
         }
 
-        private static void ConfigureSwaggerServices(ServiceConfigurationContext context, IConfiguration configuration)
+        private static void ConfigureSwagger(ServiceConfigurationContext context)
         {
             context.Services.AddSwaggerGen(
                 options =>
@@ -284,16 +292,25 @@ namespace IngosAbpTemplate.API
             });
         }
 
-        private static void ConfigureRedis(ServiceConfigurationContext context, IConfiguration configuration,
+        private void ConfigureCache(ServiceConfigurationContext context, IConfiguration configuration,
             IHostEnvironment hostingEnvironment)
         {
             if (hostingEnvironment.IsDevelopment())
                 return;
 
+            // Get redis connection
             var redis = ConnectionMultiplexer.Connect(configuration["Redis:Configuration"]);
+
+            var prefix = configuration["Redis:KeyPrefix"];
+
+            // Configure cache options 
+            Configure<AbpDistributedCacheOptions>(options => { options.KeyPrefix = $"{prefix}:"; });
+
+            // Add data protection 
+            //
             context.Services
                 .AddDataProtection()
-                .PersistKeysToStackExchangeRedis(redis, "IngosAbpTemplate-Protection-Keys");
+                .PersistKeysToStackExchangeRedis(redis, $"{prefix}:protection-keys");
         }
 
         private static void ConfigureCors(ServiceConfigurationContext context, IConfiguration configuration)

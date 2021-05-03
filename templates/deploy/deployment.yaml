@@ -1,0 +1,42 @@
+﻿apiVersion: apps/v1
+kind: Deployment
+metadata: 
+  name: ingos-api-temlpate
+  namespace: ingos
+  labels:
+    app: ingos-api-template
+spec:
+  replicas: 1
+  selector:
+    matchLabels:
+      app: ingos-api-template
+  minReadySeconds: 5
+    strategy:
+      type: RollingUpdate
+      rollingUpdate:
+        maxUnavailable: 1
+        maxSurge: 1
+  template:
+    metadata:
+      labels:
+        app: ingos-api-template
+        version: v1
+          annotations:
+            dapr.io/enabled: "true"
+            dapr.io/app-id: "ingos-api-template"
+    spec:
+      containers:
+        - name: ingos-api-template
+          image: ingos/ingos-api-template:latest # default pull the latest image version 
+          imagePullPolicy: Never
+            readinessProbe:
+              httpGet:
+                path: v1.0/healthz
+                port: 3500
+              initialDelaySeconds: 5
+              periodSeconds: 10
+              timeoutSeconds: 5
+              failureThreshold: 3
+          ports:
+            - containerPort: 80
+            - containerPort: 443

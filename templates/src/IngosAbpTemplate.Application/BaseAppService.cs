@@ -6,12 +6,12 @@ namespace IngosAbpTemplate.Application
     /// <summary>
     /// Inherit your application services from this class.
     /// </summary>
-    public abstract class IngosAbpTemplateAppService : ApplicationService
+    public abstract class BaseAppService : ApplicationService
     {
         /// <summary>
         /// Base application service
         /// </summary>
-        protected IngosAbpTemplateAppService()
+        protected BaseAppService()
         {
             LocalizationResource = typeof(IngosAbpTemplateResource);
         }
