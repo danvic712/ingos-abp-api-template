@@ -169,16 +169,16 @@ namespace IngosAbpTemplate.API
                 {
                     options.FileSets.ReplaceEmbeddedByPhysical<IngosAbpTemplateDomainSharedModule>(
                         Path.Combine(hostingEnvironment.ContentRootPath,
-                            $@"..{Path.DirectorySeparatorChar}\IngosAbpTemplate.Domain.Shared"));
+                            $@"..{Path.DirectorySeparatorChar}/IngosAbpTemplate.Domain.Shared"));
                     options.FileSets.ReplaceEmbeddedByPhysical<IngosAbpTemplateDomainModule>(
                         Path.Combine(hostingEnvironment.ContentRootPath,
-                            $@"..{Path.DirectorySeparatorChar}\IngosAbpTemplate.Domain"));
+                            $@"..{Path.DirectorySeparatorChar}/IngosAbpTemplate.Domain"));
                     options.FileSets.ReplaceEmbeddedByPhysical<IngosAbpTemplateApplicationContractsModule>(
                         Path.Combine(hostingEnvironment.ContentRootPath,
-                            $@"..{Path.DirectorySeparatorChar}\IngosAbpTemplate.Application.Contracts"));
+                            $@"..{Path.DirectorySeparatorChar}/IngosAbpTemplate.Application.Contracts"));
                     options.FileSets.ReplaceEmbeddedByPhysical<IngosAbpTemplateApplicationModule>(
                         Path.Combine(hostingEnvironment.ContentRootPath,
-                            $@"..{Path.DirectorySeparatorChar}\IngosAbpTemplate.Application"));
+                            $@"..{Path.DirectorySeparatorChar}/IngosAbpTemplate.Application"));
                 });
         }
 
@@ -267,9 +267,9 @@ namespace IngosAbpTemplate.API
                     //
                     var paths = new List<string>
                     {
-                        @"wwwroot\api-doc\IngosAbpTemplate.API.xml",
-                        @"wwwroot\api-doc\IngosAbpTemplate.Application.xml",
-                        @"wwwroot\api-doc\IngosAbpTemplate.Application.Contracts.xml"
+                        @"wwwroot/api-doc/IngosAbpTemplate.API.xml",
+                        @"wwwroot/api-doc/IngosAbpTemplate.Application.xml",
+                        @"wwwroot/api-doc/IngosAbpTemplate.Application.Contracts.xml"
                     };
                     GetApiDocPaths(paths, Path.GetDirectoryName(AppContext.BaseDirectory))
                         .ForEach(x => options.IncludeXmlComments(x, true));
