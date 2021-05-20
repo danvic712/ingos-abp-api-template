@@ -8,6 +8,7 @@
 // Description: Entity to table configuration
 //-----------------------------------------------------------------------
 
+using IngosAbpTemplate.Infrastructure.EntityConfigurations.Volo;
 using Microsoft.EntityFrameworkCore;
 using Volo.Abp;
 using Volo.Abp.AuditLogging.EntityFrameworkCore;
