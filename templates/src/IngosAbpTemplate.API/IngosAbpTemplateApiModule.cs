@@ -54,9 +54,8 @@ namespace IngosAbpTemplate.API
         #region Services
 
         /// <summary>
-        /// 
+        /// Pre configure before inject services into service collection
         /// </summary>
-        /// <param name="context"></param>
         public override void PreConfigureServices(ServiceConfigurationContext context)
         {
             PreConfigure<AbpAspNetCoreMvcOptions>(options =>
@@ -72,9 +71,8 @@ namespace IngosAbpTemplate.API
         }
 
         /// <summary>
-        /// 
+        /// Configure application services
         /// </summary>
-        /// <param name="context"></param>
         public override void ConfigureServices(ServiceConfigurationContext context)
         {
             var configuration = context.Services.GetConfiguration();
@@ -260,7 +258,7 @@ namespace IngosAbpTemplate.API
                     // Let params use the camel naming method
                     options.DescribeAllParametersInCamelCase();
 
-                    // 取消 API 文档需要输入版本信息
+                    // Remove version parameter info input in swagger page
                     options.OperationFilter<RemoveVersionFromParameter>();
 
                     // Inject api and dto comments

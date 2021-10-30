@@ -7,6 +7,7 @@ using Volo.Abp.EntityFrameworkCore;
 using Volo.Abp.EntityFrameworkCore.MySQL;
 using Volo.Abp.Modularity;
 using Volo.Abp.PermissionManagement.EntityFrameworkCore;
+using Volo.Abp.Uow;
 
 #if MsSQL
 using Volo.Abp.EntityFrameworkCore.SqlServer;
@@ -26,6 +27,7 @@ namespace IngosAbpTemplate.Infrastructure
 #else
         typeof(AbpEntityFrameworkCoreMySQLModule),
 #endif
+        typeof(AbpUnitOfWorkModule),
         typeof(AbpBackgroundJobsEntityFrameworkCoreModule),
         typeof(AbpAuditLoggingEntityFrameworkCoreModule),
         typeof(AbpPermissionManagementEntityFrameworkCoreModule)
@@ -43,7 +45,7 @@ namespace IngosAbpTemplate.Infrastructure
             {
                 /* Remove "includeAllEntities: true" to create
                  * default repositories only for aggregate roots */
-                options.AddDefaultRepositories();
+                options.AddDefaultRepositories(includeAllEntities: true);
             });
 
             Configure<AbpDbContextOptions>(options =>

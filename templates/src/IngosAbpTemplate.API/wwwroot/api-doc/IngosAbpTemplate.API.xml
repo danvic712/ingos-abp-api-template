@@ -31,15 +31,13 @@
         </member>
         <member name="M:IngosAbpTemplate.API.IngosAbpTemplateApiModule.PreConfigureServices(Volo.Abp.Modularity.ServiceConfigurationContext)">
             <summary>
-            
+            Pre configure before inject services into service collection
             </summary>
-            <param name="context"></param>
         </member>
         <member name="M:IngosAbpTemplate.API.IngosAbpTemplateApiModule.ConfigureServices(Volo.Abp.Modularity.ServiceConfigurationContext)">
             <summary>
-            
+            Configure application services
             </summary>
-            <param name="context"></param>
         </member>
         <member name="M:IngosAbpTemplate.API.IngosAbpTemplateApiModule.OnApplicationInitialization(Volo.Abp.ApplicationInitializationContext)">
             <summary>

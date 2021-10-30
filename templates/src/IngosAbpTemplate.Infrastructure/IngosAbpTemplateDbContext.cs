@@ -1,5 +1,4 @@
 ﻿using IngosAbpTemplate.Infrastructure.EntityConfigurations;
-using IngosAbpTemplate.Infrastructure.EntityConfigurations.NamingConventions;
 using Microsoft.EntityFrameworkCore;
 using Volo.Abp.Data;
 using Volo.Abp.EntityFrameworkCore;
@@ -28,12 +27,6 @@ namespace IngosAbpTemplate.Infrastructure
         {
         }
 
-        protected override void OnConfiguring(DbContextOptionsBuilder optionsBuilder)
-        {
-            base.OnConfiguring(optionsBuilder);
-            optionsBuilder.NamingConventionsRewriteName(DbNamingConvention.SnakeCase);
-        }
-
         protected override void OnModelCreating(ModelBuilder builder)
         {
             base.OnModelCreating(builder);
@@ -43,9 +36,6 @@ namespace IngosAbpTemplate.Infrastructure
 
             /* Configure your own tables/entities inside the ConfigureIngosAbpTemplate method */
             builder.ConfigureIngosAbpTemplate();
-            
-            // Due to https://github.com/abpframework/abp/pull/7849 has not release, adopt the temporary method
-            builder.NamingConventionsRewriteName(DbNamingConvention.SnakeCase);
         }
     }
 }

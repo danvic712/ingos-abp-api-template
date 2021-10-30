@@ -35,7 +35,7 @@ When you see the following picture, it means that the template has been installe
 
 
 
-### 2、如何去使用
+### 2、如何使用
 
 After you have installed this template, you can use dotnet cli to create a new project based on this template, just like the following shell.
 
@@ -63,7 +63,7 @@ When you create a new project, you need to change the connection string first, i
 ```json
 {
   "ConnectionStrings": {
-    "Default": "Server=127.0.0.1;Port=3306;Database=Template;Uid=root;Pwd=Change_To_Your_Password_Here"
+    "Default": "Server=Server Address;Port=3306;Database=Change_To_Your_Database_Here;Uid=root;Pwd=Change_To_Your_Password_Here"
   }
 }
 ```

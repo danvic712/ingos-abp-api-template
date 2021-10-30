@@ -8,7 +8,6 @@
 // Description: Entity to table configuration
 //-----------------------------------------------------------------------
 
-using IngosAbpTemplate.Infrastructure.EntityConfigurations.Volo;
 using Microsoft.EntityFrameworkCore;
 using Volo.Abp;
 using Volo.Abp.AuditLogging.EntityFrameworkCore;
@@ -29,24 +28,6 @@ namespace IngosAbpTemplate.Infrastructure.EntityConfigurations
             builder.ConfigureAuditLogging();
             builder.ConfigureBackgroundJobs();
             builder.ConfigurePermissionManagement();
-
-// #if MsSQL
-//             builder.ConfigureAuditLogging();
-//             builder.ConfigureBackgroundJobs();
-//             builder.ConfigurePermissionManagement();
-// #elif PgSQL
-//             // Due to https://github.com/abpframework/abp/pull/7849 has not release, adopt the temporary method
-//             //
-//             builder.ConfigureIngosAuditLogging();
-//             builder.ConfigureIngosBackgroundJobs();
-//             builder.ConfigureIngosPermissionManagement();
-// #else
-//             // Due to https://github.com/abpframework/abp/pull/7849 has not release, adopt the temporary method
-//             //
-//             builder.ConfigureIngosAuditLogging();
-//             builder.ConfigureIngosBackgroundJobs();
-//             builder.ConfigureIngosPermissionManagement();
-// #endif
         }
 
         /// <summary>

@@ -63,7 +63,7 @@ When you create a new project, you need to change the connection string first, i
 ```json
 {
   "ConnectionStrings": {
-    "Default": "Server=127.0.0.1;Port=3306;Database=Template;Uid=root;Pwd=Change_To_Your_Password_Here"
+    "Default": "Server=Server Address;Port=3306;Database=Change_To_Your_Database_Here;Uid=root;Pwd=Change_To_Your_Password_Here"
   }
 }
 ```
