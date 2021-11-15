@@ -41,7 +41,6 @@
         </member>
         <member name="M:IngosAbpTemplate.API.IngosAbpTemplateApiModule.OnApplicationInitialization(Volo.Abp.ApplicationInitializationContext)">
             <summary>
-
             </summary>
             <param name="context"></param>
         </member>
@@ -55,12 +54,10 @@
         </member>
         <member name="T:IngosAbpTemplate.API.Program">
             <summary>
-
             </summary>
         </member>
         <member name="M:IngosAbpTemplate.API.Program.Main(System.String[])">
             <summary>
-
             </summary>
             <param name="args"></param>
             <returns></returns>
@@ -72,12 +69,10 @@
         </member>
         <member name="M:IngosAbpTemplate.API.Startup.ConfigureServices(Microsoft.Extensions.DependencyInjection.IServiceCollection)">
             <summary>
-
             </summary>
         </member>
         <member name="M:IngosAbpTemplate.API.Startup.Configure(Microsoft.AspNetCore.Builder.IApplicationBuilder,Microsoft.AspNetCore.Hosting.IWebHostEnvironment)">
             <summary>
-
             </summary>
         </member>
     </members>
