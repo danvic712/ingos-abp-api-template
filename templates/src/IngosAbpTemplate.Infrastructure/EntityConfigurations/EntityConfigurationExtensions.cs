@@ -19,7 +19,7 @@ namespace IngosAbpTemplate.Infrastructure.EntityConfigurations
     public static class EntityConfigurationExtensions
     {
         /// <summary>
-        /// Configure Abp framework own tables/entities
+        ///     Configure Abp framework own tables/entities
         /// </summary>
         public static void ConfigureAbpEntities(this ModelBuilder builder)
         {
@@ -31,7 +31,7 @@ namespace IngosAbpTemplate.Infrastructure.EntityConfigurations
         }
 
         /// <summary>
-        /// Configure project own tables/entities
+        ///     Configure project own tables/entities
         /// </summary>
         public static void ConfigureIngosAbpTemplate(this ModelBuilder builder)
         {

@@ -6,22 +6,22 @@
     <members>
         <member name="T:IngosAbpTemplate.Application.BaseAppService">
             <summary>
-            Inherit your application services from this class.
+                Inherit your application services from this class.
             </summary>
         </member>
         <member name="M:IngosAbpTemplate.Application.BaseAppService.#ctor">
             <summary>
-            Base application service
+                Base application service
             </summary>
         </member>
         <member name="T:IngosAbpTemplate.Application.IngosAbpTemplateApplicationAutoMapperProfile">
             <summary>
-            AutoMapper object mapper profile
+                AutoMapper object mapper profile
             </summary>
         </member>
         <member name="T:IngosAbpTemplate.Application.IngosAbpTemplateApplicationModule">
             <summary>
-            Application Module
+                Application Module
             </summary>
         </member>
     </members>

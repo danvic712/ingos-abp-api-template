@@ -7,12 +7,10 @@ using Serilog.Events;
 namespace IngosAbpTemplate.API
 {
     /// <summary>
-    /// 
     /// </summary>
     public class Program
     {
         /// <summary>
-        /// 
         /// </summary>
         /// <param name="args"></param>
         /// <returns></returns>

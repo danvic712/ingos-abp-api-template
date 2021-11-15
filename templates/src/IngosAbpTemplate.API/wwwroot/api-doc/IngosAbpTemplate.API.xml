@@ -26,28 +26,28 @@
         </member>
         <member name="T:IngosAbpTemplate.API.IngosAbpTemplateApiModule">
             <summary>
-            Api module definition file
+                Api module definition file
             </summary>
         </member>
         <member name="M:IngosAbpTemplate.API.IngosAbpTemplateApiModule.PreConfigureServices(Volo.Abp.Modularity.ServiceConfigurationContext)">
             <summary>
-            Pre configure before inject services into service collection
+                Pre configure before inject services into service collection
             </summary>
         </member>
         <member name="M:IngosAbpTemplate.API.IngosAbpTemplateApiModule.ConfigureServices(Volo.Abp.Modularity.ServiceConfigurationContext)">
             <summary>
-            Configure application services
+                Configure application services
             </summary>
         </member>
         <member name="M:IngosAbpTemplate.API.IngosAbpTemplateApiModule.OnApplicationInitialization(Volo.Abp.ApplicationInitializationContext)">
             <summary>
-            
+
             </summary>
             <param name="context"></param>
         </member>
         <member name="M:IngosAbpTemplate.API.IngosAbpTemplateApiModule.GetApiDocPaths(System.Collections.Generic.IEnumerable{System.String},System.String)">
             <summary>
-            Get the api description doc path
+                Get the api description doc path
             </summary>
             <param name="paths">The xml file path</param>
             <param name="basePath">The site's base running files path</param>
@@ -55,29 +55,29 @@
         </member>
         <member name="T:IngosAbpTemplate.API.Program">
             <summary>
-            
+
             </summary>
         </member>
         <member name="M:IngosAbpTemplate.API.Program.Main(System.String[])">
             <summary>
-            
+
             </summary>
             <param name="args"></param>
             <returns></returns>
         </member>
         <member name="T:IngosAbpTemplate.API.Startup">
             <summary>
-            Application start up configuration
+                Application start up configuration
             </summary>
         </member>
         <member name="M:IngosAbpTemplate.API.Startup.ConfigureServices(Microsoft.Extensions.DependencyInjection.IServiceCollection)">
             <summary>
-            
+
             </summary>
         </member>
         <member name="M:IngosAbpTemplate.API.Startup.Configure(Microsoft.AspNetCore.Builder.IApplicationBuilder,Microsoft.AspNetCore.Hosting.IWebHostEnvironment)">
             <summary>
-            
+
             </summary>
         </member>
     </members>

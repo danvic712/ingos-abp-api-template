@@ -4,12 +4,12 @@ using Volo.Abp.Application.Services;
 namespace IngosAbpTemplate.Application
 {
     /// <summary>
-    /// Inherit your application services from this class.
+    ///     Inherit your application services from this class.
     /// </summary>
     public abstract class BaseAppService : ApplicationService
     {
         /// <summary>
-        /// Base application service
+        ///     Base application service
         /// </summary>
         protected BaseAppService()
         {
